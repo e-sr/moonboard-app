@@ -1,0 +1,110 @@
+##specific
+.idea/
+
+old/
+Measurements_example/MBBMZugExample/wav/
+Measurements_example/MBBMZugExample/test_cases/
+caseToAnalyze.json
+AppCS/firstcases.list
+AppCS/icons/icon2.ico
+Clipping/
+build/
+info.html
+*.wav
+
+##matlab
+*.mat
+
+##Window
+*.zip
+*.xlsx
+*.pdf
+*.txt
+*.docx
+#.bat
+##Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+#jupyter
+.ipynb_checkpoints/*
+.ipynb_checkpoints*
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+## R
+
+# History files
+*.Rhistory
+*.Rapp.history
+
+# Session Data files
+*.RData
+*.Rproj
+
+# Example code in package build process
+*-Ex.R
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+.Rproj.user

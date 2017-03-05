@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 
 import json
-import pickle
 from get_moonboard_problems import update_problems
 from drive_moonboard_LEDS import  init_moonboard, LED_DRIVER, PIXELS_DRIVER, test_leds, show_problem
 from flask import Flask, request, render_template
@@ -18,8 +17,8 @@ app.debug = True
 MOONBOARD_LEDS = init_moonboard(LED_DRIVER,PIXELS_DRIVER)
 
 try:
-    print("Read problems from 'problems.pkl'")
-    PROBLEMS = pickle.load(open('problems.pkl', 'rb'))
+    print("Read problems from 'problems.json'")
+    PROBLEMS = json.load(open('problems.json', 'r+'))
 except FileNotFoundError:
     print("File not found")
     PROBLEMS = {}
@@ -38,10 +37,12 @@ def index():
 
 @app.route('/_get_problems')
 def get_problems_data():
-    collection, index = table_contents(PROBLEMS)
-    results = BaseDataTables(request, COLUMNS, collection).output_result()
-    # return the results as a string for the datatable
-    return json.dumps({"data":[{'id':k, **v} for k,v in PROBLEMS.items()]})
+    data = []
+    for k, v in PROBLEMS.items():
+        d = {'id':k}
+        d.update(v)
+        data.append(d)
+    return json.dumps({"data":data})
 
 @app.route('/_select_problem', methods=['POST'])
 def select_problem():
@@ -78,38 +79,6 @@ def table_contents(problems):
         collection.append(select(p))
     return collection, index
 
-
-class BaseDataTables:
-    def __init__(self, request, columns, collection):
-        self.columns = columns
-
-        self.collection = collection
-
-        # values specified by the datatable for filtering, sorting, paging
-        self.request_values = request.values
-
-        # results from the db
-        self.result_data = None
-
-        # total in the table after filtering
-        self.cardinality_filtered = 0
-
-        # total in the table unfiltered
-        self.cadinality = 0
-
-        self.run_queries()
-
-    def output_result(self):
-        output = {}
-
-        # output['sEcho'] = str(int(self.request_values['sEcho']))
-        # output['iTotalRecords'] = str(self.cardinality)
-        # output['iTotalDisplayRecords'] = str(self.cardinality_filtered)
-
-        output['aaData'] = self.collection  # [self.collection[i] for i in range(10)]
-
-        return output
-
     def run_queries(self):
         self.result_data = self.collection
         self.cardinality_filtered = len(self.result_data)
@@ -120,4 +89,4 @@ class BaseDataTables:
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)

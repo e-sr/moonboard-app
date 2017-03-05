@@ -1,8 +1,10 @@
 import requests
 import bs4
 import re
+
+from matplotlib.pyplot import hold
 from tqdm import tqdm as tqdm_progress
-import pickle
+import json
 
 MOONBOARD_PROBLEMS_URL = "http://www.moonboard.com/problems/"
 
@@ -28,11 +30,12 @@ def get_new_problems_ids(old_problems=None):
 
 
 def sort_holds(holds):
-    holds2 = {}
+    holds_d= {}
     for holdType in ['SH','IH','FH']:
         sortedKeys = sorted([k for k in holds.keys() if holdType in k])
-        holds2[holdType] = [holds[k] for k in sortedKeys]
-    return holds2
+        holds2 = [holds[k] for k in sortedKeys]
+        holds_d[holdType] = [h for h in holds2 if h is not ""]
+    return holds_d
 
 def get_problem_data(problem_id):
     url = MOONBOARD_PROBLEMS_URL + "?p={}/".format(problem_id)
@@ -70,7 +73,8 @@ def update_problems(problems, nmax=10000):
             errors.append(k)
         else:
             if validate_problem(p_d):
-                problems[k] = {**p, **p_d}
+                problems[k] = p
+                problems[k].update(p_d)
                 added.append(k)
                 n += 1
             else:
@@ -79,17 +83,17 @@ def update_problems(problems, nmax=10000):
             break
     # save
     print("Save to file")
-    with open('problems.pkl', 'wb') as output:
+    with open('problems.json', 'w+') as output:
         # Pickle dictionary using protocol 0.
-        pickle.dump(problems, output)
+        json.dump(problems, output)
     return errors, added
 
 ##
 if __name__=="__main__":
     print('get moonboard problems \n==============')
     try:
-        print("Read problems from 'problems.pkl'")
-        PROBLEMS = pickle.load(open('problems.pkl', 'rb'))
+        print("Read problems from 'problems.json'")
+        PROBLEMS = json.load(open('problems.json', 'r+'))
     except FileNotFoundError:
         print("File not found")
         PROBLEMS = {}
@@ -97,8 +101,9 @@ if __name__=="__main__":
     else:
         print("Problems founds: {}".format(len(PROBLEMS)))
 
+
     print("Update problems")
-    errors, added = update_problems(PROBLEMS)
+    errors, added = update_problems(PROBLEMS,nmax=100)
 
     print('=========\nTotal number of problems:', len(PROBLEMS), '\nAdded:', added, '\nErrors:', errors)
 
