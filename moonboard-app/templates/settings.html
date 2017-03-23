@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}MOONBOARD APP - Settings{% endblock %}
+
+{% block content %}
+<div class="row ">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> MOONBOARD Hold Sets </h3>
+            </div>
+            <div class="panel-body">
+                <p >
+                    Select the hold sets presents on your MOONBOARD.
+                </p>
+                <div id = "select-hold-set">
+                    <label  class="btn  btn-default btn-sm ">
+                        <input id="hold_OS" type="checkbox" name="holdset" checked autocomplete="off" >
+                        OldScool
+                    </label>
+                    <label class="btn btn-default btn-sm ">
+                        <input id="hold_A" type="checkbox" name="holdset" checked autocomplete="off"  >
+                        A 2016
+                    </label>
+                    <label class="btn btn-default btn-sm ">
+                        <input id="hold_B" type="checkbox" name="holdset" checked autocomplete="off">
+                        B 2016
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> MOONBOARD LEDS settings </h3>
+            </div>
+            <div class="panel-body">
+                <!--<label class="col-sm-4 control-label">Led switch</label>-->
+                <!--<div class="form-group">-->
+                <!--<div class="col-sm-8">-->
+                <!--<div class="btn-group input-group" data-toggle="buttons">-->
+                <!--<label class="btn btn-success">-->
+                <!--<input type="radio" name="options" id="option1" />LED ON</label>-->
+                <!--<label class="btn btn-warning">-->
+                <!--<input type="radio" name="options" id="option2" />LED OFF</label>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<hr>-->
+                <!--<div class="form-group">-->
+                <!--<label class="col-sm-4 control-label">LED brigthness</label>-->
+                <!--<div class="col-sm-8">-->
+                <!--<input id="led-brightness" type="range" min="0" max="200" value="50" step="25" />-->
+                <!--</div>-->
+                <!--</div>-->
+                <!---->
+                <hr>
+                <div class="text-center">
+                    <h3> Led testing</h3>
+                    <p>
+                        The file input is the most gnarly of the bunch and require additional JavaScript if you’d like
+                        to hook them up with functional Choose file… and selected file name text.
+                    </p>
+                </div>
+                <p class="text-center">
+                    <a id = "led-test-btn" class="btn btn-default" role="button"> Test LEDS </a>
+                </p>
+                <div  class= "col-sm-12" style="display:none;" id="test-report">
+                    <div class="progress">
+                        <div  id="test-bar" class="progress-bar progress-bar-info"></div>
+                    </div>
+                    <div class="alert alert-info" id="test-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <h3 class="panel-title">Update problems</h3>
+            </div>
+            <div class="panel-body ">
+                <div class="text-center">
+                    <p>
+                        The file input is the most gnarly of the bunch and require additional JavaScript if you’d like
+                        to hook them up with functional Choose file… and selected file name text.
+                    </p>
+                    <a class="btn btn-default" href="#" role="button" data-toggle="modal"> Update problems </a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+

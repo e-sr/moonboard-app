@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}MOONBOARD APP{% endblock %}
+
+{% block content %}
+<div class="row ">
+    <div class="col-sm-8">
+        <table class='table' id="problemstable" >
+            <thead>
+            <tr>
+                {% for col in columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="col-sm-4">
+        <div class="col-sm-12">
+            <div>
+                <a id= "image-button"class="btn" role="button" data-toggle="modal">
+                    <img id ="board-img" class=".img-responsive" style="width: 100%"
+                         src={{url_for('static', filename = "img/A.png")}}>
+                </a>
+            </div>
+        </div>
+        <div class="small">
+            <table class='table table-striped table-sm' >
+                <tr>
+                    <th class="col-sm-4">Hold Sets </th>
+                    <td id="hold_set"></td>
+                </tr>
+                <tr>
+                    <th>Start</th>
+                    <td id="SH"></td>
+                </tr>
+                <tr>
+                    <th>Intermediate</th>
+                    <td id="IH"></td>
+                </tr>
+                <tr>
+                    <th>Finish</th>
+                    <td id="FH"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block modal %}
+<div id="board-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img id="board-modal-img" class="img-responsive">
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
