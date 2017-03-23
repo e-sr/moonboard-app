@@ -66,16 +66,16 @@ if __name__=="__main__":
                "holds": {"SH": ["F5", "G4"], "FH": ["E18"], "IH": ["B8", "E11", "B13", "G13"]}
                }
 
-image = Image.open(image_path({"Hold Set A 2016"}))
+    image = Image.open(image_path({"Hold Set A 2016"}))
 
-draw = ImageDraw.Draw(image)
-W,H = image.size
-for k,x in X.items():
-    draw.line((x, 0,x,H), fill=colormap["red"])
-for k,y in Y.items():
-    draw.line((0,y,W,y), fill=colormap["red"])
-emphHold(image,"F",12,colormap["black"] )
+    draw = ImageDraw.Draw(image)
+    W,H = image.size
+    for k,x in X.items():
+        draw.line((x, 0,x,H), fill=colormap["red"])
+    for k,y in Y.items():
+        draw.line((0,y,W,y), fill=colormap["red"])
+    emphHold(image,"F",12,colormap["black"] )
 
-image.save("test_image.png","PNG")
+    image.save("test_image.png","PNG")
 
-draw_Problem(problem,'test_problem.png')
+    draw_Problem(problem,'test_problem.png')

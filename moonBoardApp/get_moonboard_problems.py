@@ -6,6 +6,19 @@ import json
 
 MOONBOARD_PROBLEMS_URL = "http://www.moonboard.com/problems/"
 
+try:
+    print("Read problems from 'problems.json'")
+    PROBLEMS = json.load(open('problems.json', 'r+'))
+except IOError:
+    print("File not found")
+    PROBLEMS = {}
+    print('Empty problems dict')
+else:
+    print("Problems founds: {}".format(len(PROBLEMS)))
+
+HOLDS_SETS = {'Hold Set B 2016','Hold Set A 2016','Original School Holds 2016'}
+
+
 def get_all_problems_ids():
     """get all problems id"""
     problems = {}
@@ -63,6 +76,7 @@ def update_problems(problems,log_func, nmax=10000):
     n = 0
     errors = []
     added = []
+    i=0
     log_func('fetch new problems')
     n_p = len(new_problems)
     for k, p in new_problems.items():
@@ -80,6 +94,7 @@ def update_problems(problems,log_func, nmax=10000):
                 errors.append(k)
         if n > nmax:
             break
+
         i+=1
         log_func("{}/{}, {}%".format(n,n_p,int(n/n_p*100)))
     # save

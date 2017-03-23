@@ -12,12 +12,19 @@
 
     <meta name="author" content="esr">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.min.css')}}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='moonboard.css')}}"/>
+    {% assets "home_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% assets "home_css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %}
 
-    <script type="text/javascript" src="{{ url_for('static', filename='datatables.min.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='moonboard.js')}}"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.min.css')}}"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='moonboard.css')}}"/>-->
+
+    <!--<script type="text/javascript" src="{{ url_for('static', filename='datatables.min.js')}}"></script>-->
+    <!--<script type="text/javascript" src="{{ url_for('static', filename='home.js')}}"></script>-->
+    <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>-->
 
 
     <nav class="navbar navbar-inverse">

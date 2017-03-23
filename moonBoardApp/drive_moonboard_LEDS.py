@@ -1,25 +1,16 @@
-import sys
-import os
-import time
 import eventlet
 from bibliopixel import LEDStrip, colors
-from bibliopixel.drivers.WS2801 import  DriverWS2801
-
-
-LED_DRIVER = DriverWS2801(50)
-PIXELS = LEDStrip(LED_DRIVER, masterBrightness=100)
-
-
-
-
+#from bibliopixel.drivers.WS2801 import  DriverWS2801
+from bibliopixel.drivers.dummy_driver import DriverDummy
 def _pixel_on(moonboard, row, column, color, brightness):
     pass
 
 def _pixel_off(moonboard,row, column, color, brightness):
     pass
 
-def init_moonboard(led_driver, pixel_driver):
+def init_moonboard(led_driver, pixels):
     pass
+
 
 def test_leds(moonboard, log_func ,speed=0.2):
     """
@@ -46,6 +37,11 @@ def show_problem(moonboard, holds, brightness= 100, color= None):
     """
     pass
 
+LED_DRIVER = DriverDummy(200)
+#LED_DRIVER = DriverWS2801(50)
+PIXELS = LEDStrip(LED_DRIVER, masterBrightness=100)
+MOONBOARD_LEDS = init_moonboard(LED_DRIVER,PIXELS)
+
 if __name__=="__main__":
     #MOONBOARD_LEDS = init_moonboard(LED_DRIVER,PIXELS_DRIVER)
     print("Test MOONBOARD LEDS\n===========")
@@ -61,5 +57,5 @@ if __name__=="__main__":
                 PIXELS.set(p, colors.Black)
 
         PIXELS.update()
-        time.sleep(0.1)
+        #time.sleep(0.1)
         x=(x+1)%LL

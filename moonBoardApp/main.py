@@ -1,5 +1,23 @@
 # -*- coding:utf-8 -*-
 
+import json
+from moonBoardApp import app, socket, eventlet
+from flask import render_template, request
+
+from get_moonboard_problems import PROBLEMS, HOLDS_SETS, update_problems
+from drive_moonboard_LEDS import  MOONBOARD_LEDS, test_leds, show_problem
+
+
+COLUMNS = ['name','grade','author']
+SELECTED_PROBLEM_KEY = None
+
+CURRENT_HOLD_SET= {'Hold Set B 2016',
+                   'Hold Set A 2016',
+                   'Original School Holds 2016'}
+
+LED_ON = False
+
+
 @app.route('/')
 def index():
     return render_template('index.html', columns = COLUMNS)
@@ -60,14 +78,12 @@ def test_disconnect():
 @socket.on('start_leds_test')
 def leds_test():
     def log_func(d):
-            logging.debug(json.dumps(d))
             socket.emit('test_report', d)
     eventlet.spawn(test_leds,0,log_func)
 
 @socket.on('start_update')
 def leds_test():
     def log_func(d):
-            logging.debug(json.dumps(d))
             socket.emit('test_report', d)
     eventlet.spawn(test_leds,0,log_func)
 
