@@ -11,28 +11,19 @@
             </div>
             <div class="panel-body">
                 <p >
-                    Select the hold sets presents on your MOONBOARD.
+                    Select the hold configuration of your MOONBOARD.
                 </p>
-                <div id = "select-hold-set">
-                    <label  class="btn  btn-default btn-sm ">
-                        <input id="hold_OS" type="checkbox" name="holdset" checked autocomplete="off" >
-                        OldScool
-                    </label>
-                    <label class="btn btn-default btn-sm ">
-                        <input id="hold_A" type="checkbox" name="holdset" checked autocomplete="off"  >
-                        A 2016
-                    </label>
-                    <label class="btn btn-default btn-sm ">
-                        <input id="hold_B" type="checkbox" name="holdset" checked autocomplete="off">
-                        B 2016
-                    </label>
-                </div>
+                    <select id="select-hold-setup" data-width="auto" class="selectpicker form-control">
+                        {% for k, value in holds_setup.iteritems() %}
+                        <option value={{k}} {% if value['selected'] %} selected {% endif %}>{{ value['name'] }}</option>
+                        {% endfor %}
+                    </select>
             </div>
         </div>
         <!---->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"> MOONBOARD LEDS settings </h3>
+                <h2 class="panel-title"> MOONBOARD LEDS settings </h2>
             </div>
             <div class="panel-body">
                 <!--<label class="col-sm-4 control-label">Led switch</label>-->
@@ -58,8 +49,7 @@
                 <div class="text-center">
                     <h3> Led testing</h3>
                     <p>
-                        The file input is the most gnarly of the bunch and require additional JavaScript if you’d like
-                        to hook them up with functional Choose file… and selected file name text.
+                        ...
                     </p>
                 </div>
                 <p class="text-center">
@@ -74,6 +64,7 @@
             </div>
         </div>
     </div>
+    <!--update problems-->
     <div class="col-sm-6">
         <div class="panel panel-default ">
             <div class="panel-heading">
@@ -82,21 +73,21 @@
             <div class="panel-body ">
                 <div class="text-center">
                     <p>
-                        The file input is the most gnarly of the bunch and require additional JavaScript if you’d like
-                        to hook them up with functional Choose file… and selected file name text.
+                        ...
                     </p>
-                    <a class="btn btn-default" href="#" role="button" data-toggle="modal"> Update problems </a>
+                    <a id = "update-btn" class="btn btn-default" role="button"> update problems </a>
+                </div>
+                <div  class= "col-sm-12"  style="display:none;" id="update-report">
+                    <div class="progress">
+                        <div  id="update-bar" class="progress-bar progress-bar-info"></div>
+                    </div>
+                    <div class="alert alert-info" id="update-text"></div>
                 </div>
             </div>
         </div>
-
-
     </div>
 
 </div>
-
-
-
 
 {% endblock %}
 

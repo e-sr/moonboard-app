@@ -1,20 +1,14 @@
-from PIL import Image, ImageDraw ,ImageColor
-from  PIL.ImageColor import colormap as colormap
+from PIL import Image, ImageDraw
+from PIL.ImageColor import colormap
 import string
+from moonBoardApp import STATIC_FILE_PATH
+from moonboard_problems import HOLDS_CONF
 
-
-def image_path(hold_set):
+def image_path(hold_setup):
     #return path of image of the specified holsets
-    img_path=["static/img/A+B+O.png","static/img/A+B.png",
-              "static/img/A+O.png","static/img/A.png",
-              "static/img/B+O.png","static/img/B.png",
-              "static/img/O.png"]
-    hold_sets=[{"Hold Set A 2016","Hold Set B 2016","Original School Holds 2016"},{"Hold Set A 2016", "Hold Set B 2016"},
-               {"Hold Set A 2016", "Original School Holds 2016"},{"Hold Set A 2016"},
-               {"Hold Set B 2016", "Original School Holds 2016"},{"Hold Set B 2016"},
-               {"Original School Holds 2016"}]
-    return img_path[hold_sets.index(hold_set)]
-
+    hold_setup = sorted(list(hold_setup))
+    name = "-".join([HOLDS_CONF["configurations"][s]['shortName'].replace(" ", "_") for s in hold_setup])
+    return str(STATIC_FILE_PATH.joinpath("img").joinpath(name + ".png"))
 
 # Coordinates: x:horizontal,y vertical. (x,y)=(0,0) upper -left
 # coordinate of the first and last(A,K) hold column (in pixels )
@@ -43,7 +37,8 @@ def emphHold(img, xc, yc, color=colormap['black'] , width=4):
 
 def draw_Problem(problem, path):
     """draw problen and save image """
-    image = Image.open(image_path(set(problem['hold_sets'])))
+    img_path=image_path(set(problem['holds_setup']))
+    image = Image.open(img_path)
     colors = {
         'SH':colormap["blue"],
         'IH':colormap["blueviolet"],
@@ -53,19 +48,13 @@ def draw_Problem(problem, path):
     for hold_type in ['SH','IH', 'FH']:
         color = colors[hold_type]
         for h in problem.get('holds', {}).get(hold_type, {}):
-            print(h)
             emphHold(image,h[0],int(h[1:]),color)
     image.save(path,'png')
 
 if __name__=="__main__":
-    problem = {"name": "Herm",
-               "hold_sets": ["Hold Set A 2016", "Hold Set B 2016"],
-               "grade_val": "g",
-               "class": ["Problems", "17653+17671", "7a", "2stars", "Andrew", "Scott", ""],
-               "grade": "7a", "author": "Andrew Scott",
-               "holds": {"SH": ["F5", "G4"], "FH": ["E18"], "IH": ["B8", "E11", "B13", "G13"]}
-               }
-
+    """
+    draw grid on image for testing coordinates
+    """
     image = Image.open(image_path({"Hold Set A 2016"}))
 
     draw = ImageDraw.Draw(image)
@@ -75,7 +64,4 @@ if __name__=="__main__":
     for k,y in Y.items():
         draw.line((0,y,W,y), fill=colormap["red"])
     emphHold(image,"F",12,colormap["black"] )
-
     image.save("test_image.png","PNG")
-
-    draw_Problem(problem,'test_problem.png')

@@ -12,34 +12,40 @@
 
     <meta name="author" content="esr">
 
-    {% assets "home_js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    {% assets "home_css" %}
-    <link rel="stylesheet" href="{{ ASSET_URL }}" />
-    {% endassets %}
-
-    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.min.css')}}"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='moonboard.css')}}"/>-->
-
-    <!--<script type="text/javascript" src="{{ url_for('static', filename='datatables.min.js')}}"></script>-->
-    <!--<script type="text/javascript" src="{{ url_for('static', filename='home.js')}}"></script>-->
-    <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>-->
-
+    {{ JSGlue.include() }}
+    {% if request.path == '/problems_table' %}
+        {% assets "home_js" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" />
+        {% endassets %}
+    {%elif request.path == '/settings'%}
+        {% assets "setting_js" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" />
+        {% endassets %}
+    {%endif%}
 
     <nav class="navbar navbar-inverse">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url_for('index')}}">MOONBOARD LEDS</a>
+                <a class="navbar-brand" href="{{ url_for('problems_table')}}">MOONBOARD LEDS APP</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('settings')}}">Settings</a></li>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <button type="button" class="btn btn-primary navbar-btn" id="fullscreen-btn">
-                        <span class="glyphicon glyphicon-fullscreen"></span>
-                    </button>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        <span class="caret"> </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('settings')}}">Settings</a></li>
+                        <li><a id="fullscreen-btn" role="button" >Fullscreen</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a data-toggle="modal" data-target="#about-modal">About</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -48,64 +54,33 @@
 
 <body>
 
-<div class="container ">
+<div class="container-fluid">
     {% block content %}{% endblock %}
 </div>
-{% block modal %}{% endblock %}
-</body>
 
+{% block boardmodal %}{% endblock %}
+<!--aboutmodal-->
+<div class="modal fade" id="about-modal" tabindex="-1" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"> About</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Moonboard LED APP
+                    ========
+                    DIY web application  in flask for moonboard
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end aboutmodal-->
+</body>
 </html>
 
-<!--<div class="row ">-->
-<!--<div class="col-sm-4">-->
-<!--<div class="panel panel-default ">-->
-<!--<div class="panel-heading">-->
-<!--<h3 class="panel-title">Update problems</h3>-->
-<!--</div>-->
-<!--<div class="panel-body ">-->
-<!--bbb-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="col-sm-4">-->
-<!--<div class="panel panel-default flex-col">-->
-<!--<div class="panel-heading">-->
-<!--<h3 class="panel-title"> MOONBOARD LEDS settings </h3>-->
-<!--</div>-->
-<!--<div class="panel-body flex-grow">-->
-<!--<div class="input-group">-->
-<!--<input id="toggle-led" checked data-toggle="toggle" data-on="LED ON" data-off="LED OFF" data-size="large" data-width="100" data-height="30" type="checkbox">-->
-<!--<span class="input-group-addon"><b>brightness:</b></span>-->
-<!--<input id="led-brightness" type="range" min="0" max="200" value="50" step="25" />-->
-<!--</div>-->
-<!--<p><a class="btn btn-default" href="#" role="button"> Test LEDS </a></p>-->
-
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<span id="select-hold-set" >-->
-<!--<label >Hold sets: </label>-->
-<!--<label  class="btn  btn-default btn-xs ">-->
-<!--<input id="hold_OS" type="checkbox" name="holdset" checked autocomplete="off" >-->
-<!--OldScool-->
-<!--</label>-->
-<!--<label class="btn btn-default btn-xs ">-->
-<!--<input id="hold_A" type="checkbox" name="holdset" checked autocomplete="off"  >-->
-<!--A 2016-->
-<!--</label>-->
-<!--<label class="btn btn-default btn-xs ">-->
-<!--<input id="hold_B" type="checkbox" name="holdset" checked autocomplete="off">-->
-<!--B 2016-->
-<!--</label>-->
-<!--</span>-->
-
-<!--</div> &lt;!&ndash; /container &ndash;&gt;-->
-<!--<hr>-->
-
-<!--<footer>-->
-<!--<p>da scrivere</p>-->
-<!--</footer>-->
-<!--</div>-->
 
 
 

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}MOONBOARD APP{% endblock %}
+
+{% block content %}
+<div class="row ">
+    <div class="col-sm-7">
+        <div>
+            <table class='table' id="problemstable" >
+                <thead>
+                <tr>
+                    {% for col in columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div class="row">
+            <div class="col-sm-12">
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon" id="search-addon"><span class="glyphicon glyphicon-search"></span></span>
+                    <input id="search" type="text" class="form-control" >
+                </div>
+                <br>
+                <select id="select-grades" class="selectpicker form-control" multiple
+                        data-actions-box="true" data-multiple-separator=" | ">
+                    {% for grade in grades %}
+                    <option value={{grade.replace('+','\+')}} selected>{{grade}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="thumbnail">
+            <div>
+                <a id= "image-button" class="btn" role="button" data-toggle="modal" data-target="#board-modal">
+                    <img id ="board-img" class="img-responsive" style="max-width:30%">
+                </a>
+            </div>
+            <div class="caption">
+                <table class='table table-striped table-sm' >
+                    <tr>
+                        <th class="col-sm-3">Name</th>
+                        <td id="problem-name"></td>
+                    </tr>
+                    <tr>
+                        <th>Setup</th>
+                        <td id="hold-setup"></td>
+                    </tr>
+                    <tr>
+                        <th>Start</th>
+                        <td id="SH"></td>
+                    </tr>
+                    <tr>
+                        <th>Holds</th>
+                        <td id="IH"></td>
+                    </tr>
+                    <tr>
+                        <th>Finish</th>
+                        <td id="FH"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block boardmodal %}
+<div class="modal fade" id="board-modal" tabindex="-1" >
+    <div class="modal-dialog" style="max-width:35%">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h3 class="modal-title" id="board-modal-title"></h3>
+            </div>
+            <div class="modal-body">
+                <img id="board-modal-img" class="img-responsive" src="">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

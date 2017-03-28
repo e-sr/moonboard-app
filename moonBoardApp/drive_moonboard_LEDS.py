@@ -20,7 +20,7 @@ def test_leds(moonboard, log_func ,speed=0.2):
     :param color:
     """
     log_func({'progress': 0,'report': 'start test'})
-    steps = range(1, 4)
+    steps = range(1, )
     for i in steps:
         eventlet.sleep(2)
         log_func({'progress': int(i*100/len(steps)), 'report': "Iteration {}.".format(i)})

@@ -1,114 +1,81 @@
+// functions
+function update_images(){
+    d = new Date();
+    $('#board-img').attr("src","/static/img/current_problem.png?"+d.getTime());
+    $('#board-modal-img').attr("src","static/img/current_problem.png?"+d.getTime());
+    }
 
 function toggle_fullscreen(e){
     console.log('toggle fullscreen');
     //
-var docElm = document.documentElement;
-if (docElm.requestFullscreen) {
-docElm.requestFullscreen();
-}
-else if (docElm.mozRequestFullScreen) {
-docElm.mozRequestFullScreen();
-}
-else if (docElm.webkitRequestFullScreen) {
-docElm.webkitRequestFullScreen();
-}
-else if (docElm.msRequestFullscreen) {
-docElm.msRequestFullscreen();
-}
+    if (!document.webkitFullscreenElement){
+        document.documentElement.webkitRequestFullscreen();
+    }else{
+        document.webkitExitFullscreen();
+    }
 };
 
-function selected_hold_set() {
-   console.log($("#hold_OS").is(':checked'));
-   console.log($("#hold_A").is(':checked'));
-   console.log($("#hold_B").is(':checked'));
-};
-
-function show_modal(){
-console.log("show-board-modal");
-document.getElementById('board-modal-img').src = document.getElementById('board-img').src;
-document.getElementById('board-modal').modal();
-return false
-};
-
-function centerModal() {
-    $(this).css('display', 'block');
-    var $dialog = $(this).find(".modal-dialog");
-    var offset = ($(window).height() - $dialog.height()) / 2;
-    // Center modal vertically in window
-    $dialog.css("margin-top", offset);
-}
-
-//////////===================================================
-
+//=============================
 $(document).ready(function() {
-
+console.log("doc ready")
+//
+update_images();
+//
 var socket = io.connect('http://' + document.domain + ':' + location.port );
-
+//
 var problems = $('#problemstable').dataTable( {
-        sDom: "<'row'<'col-sm-8'f><'col-sm-4'p>>ti",
-        ajax: "_get_problems",//Flask.url_for("_get_problems"),//
+        sDom: "t<'row'<'col-sm-8 text-left'i><'col-sm-4 text-right'p>>",
+        ajax:"_get_problems",
+        //ajax:Flask.url_for("_get_problems"),
         "columns": [
         { "data": "name" },
         { "data": "grade" },
         { "data": "author" }],
         select:{"style":"single"},
-        pagingType: "simple"
+        pagingType: "simple",
+        iDisplayLength: 12
     });
 
 problems.on('select.dt', function ( e, dt, type, indexes ) {
     var problem = dt.row(indexes).data();
-    $.post("/_select_problem", {problem_id: problem.id } );
-    console.log(problem.id)
-    $('#hold_set').html(problem.hold_sets.join(' + ') );
+    console.log("Selected problem:"+ problem.id)
+    $('#hold-setup').html(problem.holds_setup_short.join(' + ') );
     $('#SH').html( problem.holds.SH.join(', ') );
     $('#IH').html( problem.holds.IH.join(', ') );
     $('#FH').html( problem.holds.FH.join(', ') );
-    $("#board-modal").modal('show');
+    $('#board-modal-title').html( problem.name );
+    $('#problem-name').html( "<b>"+problem.name+"</b>");
+    $.post( "/_select_problem", {problem_id: problem.id }, update_images());
  });
 
- document.getElementById("fullscreen-btn").addEventListener("click",toggle_fullscreen,false)
+problems.on('deselect.dt', function ( e, dt, type, indexes ) {
+    console.log("Deselected problem.")
+    $('#hold-setup').html("" );
+    $('#SH').html("");
+    $('#IH').html("");
+    $('#FH').html("");
+    $('#board-modal-title').html("");
+    $('#problem-name').html("");
+    $.post( "/_select_problem", {problem_id: null}, update_images());
+ });
 
-//====================================================//
-//                      settings
-//====================================================//
-
-$("#select-hold-set :input").change(selected_hold_set);
-
-
- socket.on('test_report', function(message) {
-    console.log(message);
-    var bar = document.getElementById("test-bar");
-    var text = document.getElementById("test-text");
-        bar.style.width = message.progress + '%';
-        bar.innerHTML = message.progress * 1 + '%';
-        text.innerHTML = message.report;
-    if(message.done){
-    console.log('btn_enable');
-    document.getElementById("led-test-btn").classList.remove("disabled");};
-    });
-
-document.getElementById("led-test-btn").addEventListener("click", function(){
-    document.getElementById("test-report").style.display = 'block';
-    document.getElementById("led-test-btn").classList.add("disabled");
-    socket.emit('start_leds_test');
-    return false;
-
+$("#select-grades").on('changed.bs.select',//'hide.bs.select',
+    function( event ){
+        var grades = $(this).val();
+        if(grades == null){grades=[];}
+        console.log("grades",grades);
+        $('#problemstable').DataTable().column(1).search('^('+grades.join('$)|(^')+'$)',regex=true).draw();
 });
 
-document.getElementById("image-button").addEventListener("click",show_modal);
+$("#search").on('keyup',//'hide.bs.select',
+    function( event ){
+        console.log("text",$(this).val());
+        $('#problemstable').DataTable().search($(this).val()).draw();
+});
 
+document.getElementById("fullscreen-btn").addEventListener("click",toggle_fullscreen);
 
-$('.modal').on('show.bs.modal', centerModal);
- //(window).on("resize", function () {
-//    $('.modal:visible').each(centerModal);
-//});
-
-$('#toggle-led').change(function() {
-    $.post("/_toggle_led_event", {
-    toggle_led: $(this).prop('checked') } );
+//end document ready
 });
 
 
-
-
-});
