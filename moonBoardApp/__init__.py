@@ -3,7 +3,7 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_jsglue import JSGlue
 import eventlet
-from pathlib2 import Path
+from pathlib import Path
 eventlet.monkey_patch()
 
 ###############

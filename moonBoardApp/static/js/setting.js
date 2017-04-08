@@ -32441,8 +32441,8 @@ document.getElementById("led-test-btn").addEventListener("click", function(){
 
 socket.on('test_report', function(message) {
 console.log(message);
-var bar = document.getElementById("test-bar");
-var text = document.getElementById("test-text");
+var bar = $("#test-bar");
+var text = $("#test-text");
     bar.style.width = message.progress + '%';
     bar.innerHTML = message.progress * 1 + '%';
     text.innerHTML = message.report;
