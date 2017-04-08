@@ -59,7 +59,7 @@ problems.on('deselect.dt', function ( e, dt, type, indexes ) {
     $.post( "/_select_problem", {problem_id: null}, update_images());
  });
 
-$("#select-grades").on('changed.bs.select',//'hide.bs.select',
+$("#select-grades").on('changed.bs.select',
     function( event ){
         var grades = $(this).val();
         if(grades == null){grades=[];}

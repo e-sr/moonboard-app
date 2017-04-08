@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw
-from PIL.ImageColor import colormap
+from PIL.ImageColor import colormap,getrgb
 import string
 from moonBoardApp import STATIC_FILE_PATH
 from moonboard_problems import HOLDS_CONF
@@ -27,6 +27,12 @@ DY = (YMAX - YMIN) / 17.
 X = {xk:int(XMIN + X_GRID_NAMES.index(xk) * DX) for xk in X_GRID_NAMES}
 Y = {yk:int(YMIN + (18-yk) * DY) for yk in Y_GRID_NAMES}
 
+HOLD_COLORS = {
+    'SH': getrgb(colormap["blueviolet"]),
+    'IH': getrgb(colormap["greenyellow"]),
+    'FH': getrgb(colormap["red"])
+}
+
 def emphHold(img, xc, yc, color=colormap['black'] , width=4):
     """draw rectagle around hold position"""
     x,y = X[xc],Y[yc]
@@ -35,15 +41,12 @@ def emphHold(img, xc, yc, color=colormap['black'] , width=4):
         draw.rectangle([x - DX / 2 + i, y - DY / 2 + i, x + DX / 2 - i, y + DY / 2 - i], outline=color)
     return img
 
-def draw_Problem(problem, path):
+def draw_Problem(problem, path, hold_colors=HOLD_COLORS):
     """draw problen and save image """
     img_path=image_path(set(problem['holds_setup']))
     image = Image.open(img_path)
-    colors = {
-        'SH':colormap["blue"],
-        'IH':colormap["blueviolet"],
-        'FH':colormap["red"]
-    }
+
+    colors = {k:v for k,v in hold_colors.items()}
 
     for hold_type in ['SH','IH', 'FH']:
         color = colors[hold_type]

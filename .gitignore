@@ -1,5 +1,7 @@
 ##specific
 .idea/
+others/
+moonBoardApp/static/.*
 
 ##Python
 # Byte-compiled / optimized / DLL files

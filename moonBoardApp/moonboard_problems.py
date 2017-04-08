@@ -26,7 +26,7 @@ HOLDS_CONF = { "sets":["A","B","OS"],
                }
 
 HOLDS_CONF["grid"]["xy"]= [v+str(h) for v in HOLDS_CONF["grid"]["vertical"] for h in HOLDS_CONF["grid"]["horizontal"]]
-
+N_HOLDS = 18*11
 MOONBOARD_PROBLEMS_URL = "http://www.moonboard.com/problems/"
 PROBLEMS = {}
 

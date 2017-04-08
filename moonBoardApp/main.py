@@ -7,7 +7,8 @@ from flask import render_template, request,redirect,url_for
 
 from moonboard_problems import HOLDS_CONF, site_update_problems, load_problems
 from draw_problem import draw_Problem
-from drive_moonboard_LEDS import  MOONBOARD_LEDS, test_leds, show_problem
+from drive_moonboard_LEDS import  test_leds, show_problem, clear_problem
+from PIL.ImageColor import colormap,getrgb
 
 ##GLOBALS
 PROBLEMS_FILE_PATH = str(APP_ROOT.joinpath('problems.json'))
@@ -16,12 +17,18 @@ PROBLEM_IMAGE_PATH = str(STATIC_FILE_PATH.joinpath("img").joinpath('current_prob
 PROBLEMS = load_problems(PROBLEMS_FILE_PATH)
 
 # A+B+OS 2016
+
 CURRENT_HOLD_SETUP_KEY= 1
 SELECTED_PROBLEM_KEY = None
 LED_BRIGHTNESS = 100
+HOLD_COLORS = {
+    'SH': getrgb(colormap["blueviolet"]),
+    'IH': getrgb(colormap["greenyellow"]),
+    'FH': getrgb(colormap["red"])
+}
 
 #draw empty problem
-draw_Problem({'holds_setup':HOLDS_CONF['setup'][CURRENT_HOLD_SETUP_KEY]}, PROBLEM_IMAGE_PATH)
+draw_Problem({'holds_setup':HOLDS_CONF['setup'][CURRENT_HOLD_SETUP_KEY]}, PROBLEM_IMAGE_PATH,HOLD_COLORS)
 
 #views
 
@@ -60,14 +67,14 @@ def select_problem():
     if problem_id=="":
         print(" No selected problem.")
         SELECTED_PROBLEM_KEY = None
-        draw_Problem({'holds_setup': HOLDS_CONF['setup'][CURRENT_HOLD_SETUP_KEY]}, PROBLEM_IMAGE_PATH)
-        show_problem(MOONBOARD_LEDS, {}, brightness=0)
+        draw_Problem({'holds_setup': HOLDS_CONF['setup'][CURRENT_HOLD_SETUP_KEY]}, PROBLEM_IMAGE_PATH,HOLD_COLORS)
+        clear_problem()
     else:
         print("Selected problem ID: {}".format(problem_id))
         SELECTED_PROBLEM_KEY = problem_id
         holds = PROBLEMS.get(SELECTED_PROBLEM_KEY, {}).get('holds', {})
-        draw_Problem(PROBLEMS.get(SELECTED_PROBLEM_KEY, {}), PROBLEM_IMAGE_PATH )
-        show_problem(MOONBOARD_LEDS, holds, brightness=LED_BRIGHTNESS)
+        draw_Problem(PROBLEMS.get(SELECTED_PROBLEM_KEY, {}), PROBLEM_IMAGE_PATH,HOLD_COLORS)
+        show_problem( holds,HOLD_COLORS, brightness=LED_BRIGHTNESS)
     return "OK"
 
 @app.route('/_set_holds_setup', methods=['POST'])
@@ -95,9 +102,11 @@ def test_disconnect():
 
 @socket.on('_start_leds_test')
 def leds_test():
+    print "start test"
     def log_func(d):
             socket.emit('test_report', d)
-    eventlet.spawn(test_leds,0,log_func)
+            print(d)
+    eventlet.spawn(test_leds,log_func, 5.0)
 
 @socket.on('_update_problems')
 def leds_test():
