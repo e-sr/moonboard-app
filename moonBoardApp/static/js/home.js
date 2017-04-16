@@ -32414,7 +32414,7 @@ this.secure=null!=r.secure?r.secure:e.location&&"https:"===location.protocol,r.h
 function update_images(){
     d = new Date();
     $('#board-img').attr("src","/static/img/current_problem.png?"+d.getTime());
-    $('#board-modal-img').attr("src","static/img/current_problem.png?"+d.getTime());
+    $('#board-modal-img').attr("src","/static/img/current_problem.png?"+d.getTime());
     }
 
 function toggle_fullscreen(e){
@@ -32429,7 +32429,7 @@ function toggle_fullscreen(e){
 
 //=============================
 $(document).ready(function() {
-document.body.style.zoom = "80%";
+//document.body.style.zoom = "80%";
 console.log("doc ready")
 //
 update_images();
@@ -32446,7 +32446,7 @@ var problems = $('#problemstable').dataTable( {
         { "data": "author" }],
         select:{"style":"single"},
         pagingType: "simple",
-        iDisplayLength: 10
+        iDisplayLength: 8
     });
 
 problems.on('select.dt', function ( e, dt, type, indexes ) {
@@ -32457,7 +32457,7 @@ problems.on('select.dt', function ( e, dt, type, indexes ) {
     $('#IH').html( problem.holds.IH.join(', ') );
     $('#FH').html( problem.holds.FH.join(', ') );
     $('#board-modal-title').html( problem.name );
-    $('#problem-name').html( "<b>"+problem.name+"</b>");
+//    $('#problem-name').html( "<b>"+problem.name+"</b>");
     $.post( "/_select_problem", {problem_id: problem.id }, update_images());
  });
 
