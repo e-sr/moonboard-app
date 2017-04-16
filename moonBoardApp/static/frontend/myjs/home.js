@@ -17,6 +17,7 @@ function toggle_fullscreen(e){
 
 //=============================
 $(document).ready(function() {
+document.body.style.zoom = "80%";
 console.log("doc ready")
 //
 update_images();
@@ -24,7 +25,7 @@ update_images();
 var socket = io.connect('http://' + document.domain + ':' + location.port );
 //
 var problems = $('#problemstable').dataTable( {
-        sDom: "t<'row'<'col-sm-8 text-left'i><'col-sm-4 text-right'p>>",
+        sDom: "<'row'<'col-sm-8 text-left'><'col-sm-4 text-right'p>>t<'row'<'col-sm-12 text-left'i>>",
         ajax:"_get_problems",
         //ajax:Flask.url_for("_get_problems"),
         "columns": [
@@ -33,7 +34,7 @@ var problems = $('#problemstable').dataTable( {
         { "data": "author" }],
         select:{"style":"single"},
         pagingType: "simple",
-        iDisplayLength: 12
+        iDisplayLength: 10
     });
 
 problems.on('select.dt', function ( e, dt, type, indexes ) {
