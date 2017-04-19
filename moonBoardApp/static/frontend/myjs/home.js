@@ -17,8 +17,9 @@ function toggle_fullscreen(e){
 
 //=============================
 $(document).ready(function() {
-document.body.style.zoom = "95%";
+//document.body.style.zoom = "95%";
 console.log("doc ready")
+document.documentElement.webkitRequestFullscreen()
 //
 update_images();
 //

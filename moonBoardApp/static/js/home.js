@@ -13,8 +13,8 @@ this.secure=null!=r.secure?r.secure:e.location&&"https:"===location.protocol,r.h
  */
 
 /*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=17234054b9fd62fd8d67e66f9077af3f)
- * Config saved to config.json and https://gist.github.com/17234054b9fd62fd8d67e66f9077af3f
+ * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=6de6fda0b562fb8a2980cb6f1c831bc6)
+ * Config saved to config.json and https://gist.github.com/6de6fda0b562fb8a2980cb6f1c831bc6
  */
 if (typeof jQuery === 'undefined') {
   throw new Error('Bootstrap\'s JavaScript requires jQuery')
@@ -20956,7 +20956,8 @@ function toggle_fullscreen(e){
 
 //=============================
 $(document).ready(function() {
-document.body.style.zoom = "95%";
+//document.body.style.zoom = "95%";
+document.documentElement.webkitRequestFullscreen()
 console.log("doc ready")
 //
 update_images();
