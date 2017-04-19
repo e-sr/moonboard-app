@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <basefont size="12">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,19 +12,19 @@
 
     {{ JSGlue.include() }}
     {% if request.path == '/problems_table' %}
-        {% assets "home_js" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-        {% endassets %}
-        {% assets "home_css" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}" />
-        {% endassets %}
+    {% assets "home_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% assets "home_css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %}
     {%elif request.path == '/settings'%}
-        {% assets "setting_js" %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-        {% endassets %}
-        {% assets "home_css" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}" />
-        {% endassets %}
+    {% assets "setting_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+    {% assets "home_css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %}
     {%endif%}
 
     <nav class="navbar navbar-inverse">

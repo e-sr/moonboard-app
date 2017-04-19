@@ -23,7 +23,7 @@ SELECTED_PROBLEM_KEY = None
 LED_BRIGHTNESS = 100
 HOLD_COLORS = {
     'SH': getrgb(colormap["blueviolet"]),
-    'IH': getrgb(colormap["greenyellow"]),
+    'IH': getrgb(colormap["darkgreen"]),
     'FH': getrgb(colormap["red"])
 }
 

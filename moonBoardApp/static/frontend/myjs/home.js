@@ -17,7 +17,7 @@ function toggle_fullscreen(e){
 
 //=============================
 $(document).ready(function() {
-//document.body.style.zoom = "80%";
+document.body.style.zoom = "95%";
 console.log("doc ready")
 //
 update_images();
@@ -25,7 +25,7 @@ update_images();
 var socket = io.connect('http://' + document.domain + ':' + location.port );
 //
 var problems = $('#problemstable').dataTable( {
-        sDom: "<'row'<'col-sm-8 text-left'><'col-sm-4 text-right'p>>t<'row'<'col-sm-12 text-left'i>>",
+        sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-right'p>>",
         ajax:"_get_problems",
         //ajax:Flask.url_for("_get_problems"),
         "columns": [
@@ -33,8 +33,8 @@ var problems = $('#problemstable').dataTable( {
         { "data": "grade" },
         { "data": "author" }],
         select:{"style":"single"},
-        pagingType: "simple",
-        iDisplayLength: 8
+        pagingType: "simple_numbers",
+        iDisplayLength: 5
     });
 
 problems.on('select.dt', function ( e, dt, type, indexes ) {
@@ -44,7 +44,7 @@ problems.on('select.dt', function ( e, dt, type, indexes ) {
     $('#SH').html( problem.holds.SH.join(', ') );
     $('#IH').html( problem.holds.IH.join(', ') );
     $('#FH').html( problem.holds.FH.join(', ') );
-    $('#board-modal-title').html( problem.name );
+//    $('#board-modal-title').html( problem.name );
 //    $('#problem-name').html( "<b>"+problem.name+"</b>");
     $.post( "/_select_problem", {problem_id: problem.id }, update_images());
  });
