@@ -2,6 +2,7 @@
 .idea/
 others/
 moonBoardApp/static/.webassets-cache
+moonBoardApp/static/img/current_problem.png
 
 ##Python
 # Byte-compiled / optimized / DLL files
