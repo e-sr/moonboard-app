@@ -2,7 +2,7 @@
 
 import json
 
-from moonBoardApp import app, socket, eventlet, jsglue, APP_ROOT,STATIC_FILE_PATH
+from moonBoardApp import app, socket, eventlet, APP_ROOT,STATIC_FILE_PATH
 from flask import render_template, request,redirect,url_for
 
 from moonboard_problems import HOLDS_CONF, site_update_problems, load_problems
