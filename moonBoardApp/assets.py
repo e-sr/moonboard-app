@@ -1,5 +1,4 @@
-from flask_assets import Bundle, Environment
-from moonBoardApp import app
+from flask_assets import Bundle
 
 bundles = {
     "home_js": Bundle(
@@ -27,5 +26,3 @@ bundles = {
         output="js/setting.js"),
 }
 
-assets = Environment(app)
-assets.register(bundles)

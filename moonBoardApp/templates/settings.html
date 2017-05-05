@@ -11,9 +11,9 @@
             </div>
             <div class="panel-body">
                 <p >
-                    Select the hold configuration of your MOONBOARD.
+                    Select the hold setup of your MOONBOARD.
                 </p>
-                    <select id="select-hold-setup" data-width="auto" class="selectpicker form-control">
+                    <select id="select-hold-setup"  class="selectpicker form-control">
                         {% for k, value in holds_setup.iteritems() %}
                         <option value={{k}} {% if value['selected'] %} selected {% endif %}>{{ value['name'] }}</option>
                         {% endfor %}
@@ -26,36 +26,16 @@
                 <h2 class="panel-title"> MOONBOARD LEDS settings </h2>
             </div>
             <div class="panel-body">
-                <!--<label class="col-sm-4 control-label">Led switch</label>-->
-                <!--<div class="form-group">-->
-                <!--<div class="col-sm-8">-->
-                <!--<div class="btn-group input-group" data-toggle="buttons">-->
-                <!--<label class="btn btn-success">-->
-                <!--<input type="radio" name="options" id="option1" />LED ON</label>-->
-                <!--<label class="btn btn-warning">-->
-                <!--<input type="radio" name="options" id="option2" />LED OFF</label>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<hr>-->
-                <!--<div class="form-group">-->
-                <!--<label class="col-sm-4 control-label">LED brigthness</label>-->
-                <!--<div class="col-sm-8">-->
                 <!--<input id="led-brightness" type="range" min="0" max="200" value="50" step="25" />-->
-                <!--</div>-->
-                <!--</div>-->
-                <!---->
-                <hr>
                 <div class="text-center">
-                    <h3> Led testing</h3>
                     <p>
-                        ...
+                        test
                     </p>
                 </div>
                 <p class="text-center">
                     <a id = "led-test-btn" class="btn btn-default" role="button"> Test LEDS </a>
                 </p>
-                <div  class= "col-sm-12" style="display:none;" id="test-report">
+                <div  class= "col-sm-12" id="test-report">
                     <div class="progress">
                         <div  id="test-bar" class="progress-bar progress-bar-info"></div>
                     </div>

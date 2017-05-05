@@ -1,64 +1,76 @@
+# -*- coding: utf-8 -*-
 import eventlet
 from bibliopixel import LEDStrip, colors
-#from bibliopixel.drivers.WS2801 import  DriverWS2801
+from bibliopixel.drivers.WS2801 import  DriverWS2801
 from bibliopixel.drivers.dummy_driver import DriverDummy
-from draw_problem import X_GRID_NAMES
-from moonboard_problems import N_HOLDS
+from moonboard_problems import HOLDS_CONF
 
-
-LED_DRIVER = DriverDummy(N_HOLDS)
-#LED_DRIVER = DriverWS2801(N_HOLDS)
-#LED_DRIVER = DriverWS2801(50)
 BRIGHTNESS = 100
-HOLD_COLORS = {
-    'SH': colors.Red,
-    'IH': colors.Red,
-    'FH': colors.Red
-}
-MOONBOARD_LEDS = LEDStrip(LED_DRIVER, masterBrightness=BRIGHTNESS)
 
-def _coordinate_to_p_number(hold_coord):
+def init_pixels(type, npixels=200):
+    try:
+        if type == "spi" or type == "raspberry":
+            LED_DRIVER = DriverWS2801(npixels)
+        else:
+            raise ValueError("device type has not in {}".format(str(['spi','raspberry'])))
+    except ImportError as e:
+        print("Not able to initialize the driver. Error{}".format(str(e.message)))
+        print("Use bibliopixel.drivers.dummy_driver")
+        LED_DRIVER = DriverDummy(npixels)
+
+    return LEDStrip(LED_DRIVER, masterBrightness=BRIGHTNESS)
+
+def _coordinate_to_p_number(hold_coord, offset = 2):
+    x_grid_name = HOLDS_CONF['grid_name']['horizontal']
+
     #split coordinate in x and y grid names
     x_grid_name, y_grid_name = hold_coord[0], int(hold_coord[1:])
-    x = X_GRID_NAMES.index(x_grid_name)
+    x = x_grid_name.index(x_grid_name)
     y=y_grid_name-1
     u= (1-(-1)**x)/2
-    return (x*18 + ((1-2*u)*y - u)%18)%50
+    return offset + (x*18 + ((1-2*u)*y - u)%18)%50
 
-def clear_problem():
-    MOONBOARD_LEDS.all_off()
-    MOONBOARD_LEDS.update()
+def clear_problem(pixels):
+    pixels.all_off()
+    pixels.update()
 
-def show_problem(holds, hold_colors=HOLD_COLORS, brightness=BRIGHTNESS):
-
-    clear_problem()
-    color = {k:v for k,v in hold_colors.items()}
+def show_problem(pixels, holds, hold_colors = {} , brightness=BRIGHTNESS):
+    """show problem on moonboardpixels"""
+    clear_problem(pixels)
+    color = {k:hold_colors.get(k,(255,0,0)) for k in ['SH','IH','FH']}
 
     for hold in holds['SH']:
-        MOONBOARD_LEDS.set(_coordinate_to_p_number(hold), color['SH'])
+        pixels.set(_coordinate_to_p_number(hold), color['SH'])
 
     for hold in holds['IH']:
-        MOONBOARD_LEDS.set(_coordinate_to_p_number(hold), color['IH'])
+        pixels.set(_coordinate_to_p_number(hold), color['IH'])
 
     for hold in holds['FH']:
-        MOONBOARD_LEDS.set(_coordinate_to_p_number(hold), color['FH'])
-    MOONBOARD_LEDS.setMasterBrightness(brightness)
-    MOONBOARD_LEDS.update()
+        pixels.set(_coordinate_to_p_number(hold), color['FH'])
+    pixels.setMasterBrightness(brightness)
+    pixels.update()
 
-def test_leds(log_func , time = 10.0, color=colors.Red):
+def test_leds(pixels, log_func , time = 10.0, color = colors.Red):
     """"""
+    npixels = pixels.numLEDs
     log_func({'progress': 0,'report': 'start test'})
+    npixelsON = 10
     p=0
-    for p in range(N_HOLDS):
+    for p in range(npixels+npixelsON):
         if p>=1:
-            MOONBOARD_LEDS.setOff(p - 1)
-        MOONBOARD_LEDS.set(p, color)
-        MOONBOARD_LEDS.update()
-        eventlet.sleep(time/N_HOLDS)
-        log_func({'progress': int(p*100/N_HOLDS), 'report': "Test running...\nLed number {}.".format(p)})
-    log_func({'progress': int(p*100/N_HOLDS), 'report': "Test finish...\nLed number {}.",'done':True})
+            pixels.setOff(p - npixelsON)
+        if p <= npixels:
+            pixels.set(p, color)
+        pixels.update()
+        eventlet.sleep(time/npixels)
+        log_func({'progress': int(p*100/(npixels+npixelsON)), 'report': "Test running...\nLed number {}.".format(p)})
+
+    log_func({'progress': 100, 'report': "Test finish...\nLed number {}.",'done':True})
 
 if __name__=="__main__":
     print("Test MOONBOARD LEDS\n===========")
     print(test_leds.__doc__)
-
+    def f(s):
+        print(s)
+    pixels = init_pixels('spi')
+    test_leds(pixels, f)

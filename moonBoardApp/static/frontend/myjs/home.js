@@ -5,25 +5,22 @@ function update_images(){
     $('#board-modal-img').attr("src","/static/img/current_problem.png?"+d.getTime());
     }
 
-function toggle_fullscreen(e){
-    console.log('toggle fullscreen');
-    //
-    if (!document.webkitFullscreenElement){
-        document.documentElement.webkitRequestFullscreen();
-    }else{
-        document.webkitExitFullscreen();
-    }
-};
+//function toggle_fullscreen(e){
+//    console.log('toggle fullscreen');
+//    //
+//    if (!document.webkitFullscreenElement){
+//        document.documentElement.webkitRequestFullscreen();
+//    }else{
+//        document.webkitExitFullscreen();
+//    }
+//};
 
 //=============================
 $(document).ready(function() {
 //document.body.style.zoom = "95%";
 console.log("doc ready")
-document.documentElement.webkitRequestFullscreen()
 //
 update_images();
-//
-var socket = io.connect('http://' + document.domain + ':' + location.port );
 //
 var problems = $('#problemstable').dataTable( {
         sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-center'p>>",
@@ -79,7 +76,7 @@ $("#search").on('keyup',//'hide.bs.select',
         $('#problemstable').DataTable().search($(this).val()).draw();
 });
 
-document.getElementById("fullscreen-btn").addEventListener("click",toggle_fullscreen);
+//document.getElementById("fullscreen-btn").addEventListener("click",toggle_fullscreen);
 
 //end document ready
 });

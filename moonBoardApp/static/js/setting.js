@@ -13,8 +13,8 @@ this.secure=null!=r.secure?r.secure:e.location&&"https:"===location.protocol,r.h
  */
 
 /*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=17234054b9fd62fd8d67e66f9077af3f)
- * Config saved to config.json and https://gist.github.com/17234054b9fd62fd8d67e66f9077af3f
+ * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=6de6fda0b562fb8a2980cb6f1c831bc6)
+ * Config saved to config.json and https://gist.github.com/6de6fda0b562fb8a2980cb6f1c831bc6
  */
 if (typeof jQuery === 'undefined') {
   throw new Error('Bootstrap\'s JavaScript requires jQuery')
@@ -4277,41 +4277,21 @@ document.getElementById("led-test-btn").addEventListener("click", function(){
 });
 
 socket.on('test_report', function(message) {
-console.log(message);
-var bar = $("#test-bar");
-var text = $("#test-text");
+    console.log(message.progress);
+    var bar = $("#test-bar");
+    var text = $("#test-text");
     bar.style.width = message.progress + '%';
-    bar.innerHTML = message.progress * 1 + '%';
-    text.innerHTML = message.report;
-if(message.done){
-console.log('btn_enable');
-document.getElementById("led-test-btn").classList.remove("disabled");};
+    bar.innerHTML = message.progress + '%';
+    if(message.done){
+        console.log('btn_enable');
+        document.getElementById("led-test-btn").classList.remove("disabled");
+        text.innerHTML = message.report;
+    };
 });
 
-document.getElementById("led-test-btn").addEventListener("click", function(){
-    document.getElementById("test-report").style.display = 'block';
-    document.getElementById("led-test-btn").classList.add("disabled");
-    socket.emit('start_leds_test');
-    return false;
-});
 
-socket.on('test_report', function(message) {
-console.log(message);
-var bar = document.getElementById("test-bar");
-var text = document.getElementById("test-text");
-    bar.style.width = message.progress + '%';
-    bar.innerHTML = message.progress * 1 + '%';
-    text.innerHTML = message.report;
-if(message.done){
-console.log('btn_enable');
-document.getElementById("led-test-btn").classList.remove("disabled");};
-});
 
-$('#toggle-led').change(function() {
-    $.post("/_toggle_led_event", {
-    toggle_led: $(this).prop('checked') } );
-});
 
-document.getElementById("fullscreen-btn").addEventListener("click",toggle_fullscreen);
+//document.getElementById("fullscreen-btn").addEventListener("click",toggle_fullscreen);
 
 });
