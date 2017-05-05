@@ -69,8 +69,25 @@ def test_leds(pixels, log_func , time = 10.0, color = colors.Red):
 
 if __name__=="__main__":
     print("Test MOONBOARD LEDS\n===========")
-    print(test_leds.__doc__)
-    def f(s):
-        print(s)
+    import argparse
+    parser = argparse.ArgumentParser(description='Test led system')
+    parser.add_argument('--duration',  type=int, default=10,
+                        help='Duration of the test ')
+    parser.add_argument('--on',  type=int, default=0,
+                        help='number of leds on starting from 0')
+
+    args = parser.parse_args()
     pixels = init_pixels('spi')
-    test_leds(pixels, f)
+    if not args.on:
+        def f(s):
+            print(s)
+        test_leds(pixels, f, time= args.duration)
+    else:
+        print("Turn on (red) first {} leds.".format(args.on))
+        for i in range(args.on):
+            clear_problem(pixels)
+            pixels.set(i,colors.Red)
+        pixels.update()
+
+
+
