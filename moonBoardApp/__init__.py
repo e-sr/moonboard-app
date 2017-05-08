@@ -149,7 +149,7 @@ def leds_test():
     def log_func(d):
             socket.emit('test_report', d)
             print d
-    eventlet.spawn(test_leds, MOONBOARD_PIXELS, log_func, 5.0)
+    eventlet.spawn(test_leds, MOONBOARD_PIXELS, log_func= log_func, sleep_func = eventlet.sleep, delay = 10.0)
 
 @socket.on('_update_problems')
 def leds_test():

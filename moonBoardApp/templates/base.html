@@ -55,27 +55,25 @@
     {% block content %}{% endblock %}
 </div>
 
-{% block boardmodal %}{% endblock %}
+</body>
+
 <!--aboutmodal-->
 <div class="modal fade" id="about-modal" tabindex="-1" >
-    <div class="modal-dialog">
+    <div class="modal-dialog" >
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title"> About</h4>
+                <h3 class="modal-title" id="board-modal-title">About</h3>
             </div>
             <div class="modal-body">
-                <p>
-                    Moonboard LED APP
-                    ========
-                    DIY web application  in flask for moonboard
-                </p>
+                <p>AAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAabbbbbb bbbbbbbbbbbbbbbbbbbb</p>
+                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button>
             </div>
         </div>
     </div>
 </div>
 <!-- end aboutmodal-->
-</body>
+{% block boardmodal %}{% endblock %}
 </html>
 
 
