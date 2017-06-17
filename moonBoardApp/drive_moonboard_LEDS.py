@@ -48,11 +48,11 @@ def show_problem(pixels, holds, hold_colors = {} , brightness=BRIGHTNESS):
     pixels.setMasterBrightness(brightness)
     pixels.update()
 
-def test_leds(pixels, log_func , sleep_func, delay = 10.0, color = colors.Red):
+def test_leds(pixels, log_func , sleep_func, delay = 20.0, color = colors.Red):
     """"""
     npixels = pixels.numLEDs
     log_func({'progress': 0,'report': 'start test'})
-    npixelsON = 10
+    npixelsON = 18
     p=0
     for p in range(npixels+npixelsON):
         if p>=1:

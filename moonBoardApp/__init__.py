@@ -70,7 +70,7 @@ def fetch_problems(delay):
             eventlet.sleep(1)
 
 
-eventlet.spawn(fetch_problems, delay = 5.0)
+#eventlet.spawn(fetch_problems, delay = 5.0)
 
 
 ####################
