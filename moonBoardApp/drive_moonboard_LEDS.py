@@ -20,10 +20,10 @@ def init_pixels(type, npixels=200):
     return LEDStrip(LED_DRIVER, masterBrightness=BRIGHTNESS)
 
 def _coordinate_to_p_number(hold_coord, offset = 2):
-    x_grid_name = HOLDS_CONF['grid_name']['horizontal']
+    x_grid_names = HOLDS_CONF['grid_name']['horizontal']
     #split coordinate in x and y grid names
     x_grid_name, y_grid_name = hold_coord[0], int(hold_coord[1:])
-    x = x_grid_name.index(x_grid_name)
+    x = x_grid_names.index(x_grid_name)
     y=y_grid_name-1
     u= (1-(-1)**x)/2
     return offset + (x*18 + ((1-2*u)*y - u)%18)
