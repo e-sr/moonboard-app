@@ -191,7 +191,7 @@ def fetch_and_save_new_site_problems(current_problems,save_dir_path, log_func, n
 if __name__=="__main__":
     import argparse
     parser = argparse.ArgumentParser(description='Fetch problems from internet')
-    parser.add_argument('--nmax',  type=int, default=10,
+    parser.add_argument('--nmax',  type=int, default=1000,
                         help='maximum number of problems to fetch')
 
     args = parser.parse_args()

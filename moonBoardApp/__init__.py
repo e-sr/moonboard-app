@@ -58,6 +58,21 @@ def init_problems_var():
     print("Setups founds:")
     print get_setups(PROBLEMS)
 
+def fetch_problems(delay):
+    i = delay
+    while True:
+
+        if i<1:
+            print("fetch led problems")
+            i=delay
+        else:
+            i -= 1
+            eventlet.sleep(1)
+
+
+eventlet.spawn(fetch_problems, delay = 5.0)
+
+
 ####################
 app = Flask(__name__)
 app.debug=True
