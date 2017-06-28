@@ -74,7 +74,6 @@ def load_problems(problems_dir_path, site=False):
             print("File not valid")
         else:
             for p in problems_list:
-                p["holds_setup_k"] = _get_hold_setup_key("holds_setup_k")
                 _add_problem(problems,p)
     return problems
 
@@ -87,6 +86,23 @@ def get_setups(problems):
             setups.add(set(p["holds_setup"]))
     return setups
 
+def problems_data(hold_setup_key, problems):
+    current_hold_setup = HOLDS_CONF["setup"][hold_setup_key]
+    data,data_by_hold = [],{}
+    for k, v in problems.items():
+        if set(v["holds_setup"]).issubset(current_hold_setup):
+            d = {'id':k}
+            d.update(v)
+            d["holds_setup_short"] = [HOLDS_CONF["configurations"].get(name,{}).get('shortName') for name in sorted(d["holds_setup"])]
+            d['favorite']=None
+            data.append(d)
+            for h in v['holds'].get('IH'):
+                data_by_hold.setdefault(h,set([])).add(k)
+            for h in v['holds'].get('FH'):
+                data_by_hold.setdefault(h,set([])).add(k)
+            for h in v['holds'].get('SH'):
+                data_by_hold.setdefault(h,set([])).add(k)
+    return data ,data_by_hold
 
 
 #======================

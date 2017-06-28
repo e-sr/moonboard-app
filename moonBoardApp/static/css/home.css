@@ -7398,3 +7398,7 @@ td { font-size: 18px; }
     color: transparent;
 }
 
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}

@@ -10,7 +10,7 @@
 
     <meta name="author" content="esr">
 
-    {% if request.path == '/problems_table' %}
+    {% if request.path == '/problems_table' or request.path == '/favorites_table'or request.path == '/search_by_holds'%}
     {% assets "home_js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
@@ -31,6 +31,10 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="{{ url_for('problems_table')}}">MOONBOARD LEDS APP</a>
             </div>
+            <ul class="nav navbar-nav">
+              <li><a href="{{ url_for('favorites_table')}}">Favorites</a></li>
+              <li><a href="{{ url_for('search_by_holds')}}">SearchByHolds</a></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -66,7 +70,9 @@
                 <h3 class="modal-title" id="board-modal-title">About</h3>
             </div>
             <div class="modal-body">
-                <p>AAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAabbbbbb bbbbbbbbbbbbbbbbbbbb</p>
+                <p> Enjoy.
+
+                    ESR</p>
                 <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button>
             </div>
         </div>

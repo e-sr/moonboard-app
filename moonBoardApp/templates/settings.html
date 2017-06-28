@@ -3,71 +3,56 @@
 {% block title %}MOONBOARD APP - Settings{% endblock %}
 
 {% block content %}
-<div class="row ">
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"> MOONBOARD Hold Sets </h3>
-            </div>
-            <div class="panel-body">
-                <p >
-                    Select the hold setup of your MOONBOARD.
-                </p>
-                    <select id="select-hold-setup"  class="selectpicker form-control">
-                        {% for k, value in holds_setup.iteritems() %}
-                        <option value={{k}} {% if value['selected'] %} selected {% endif %}>{{ value['name'] }}</option>
-                        {% endfor %}
-                    </select>
-            </div>
-        </div>
-        <!---->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title"> MOONBOARD LEDS settings </h2>
-            </div>
-            <div class="panel-body">
-                <!--<input id="led-brightness" type="range" min="0" max="200" value="50" step="25" />-->
-                <div class="text-center">
-                    <p>
-                        test
-                    </p>
-                </div>
-                <p class="text-center">
-                    <a id = "led-test-btn" class="btn btn-default" role="button"> Test LEDS </a>
-                </p>
-                <div  class= "col-sm-12" id="test-report">
-                    <div class="progress">
-                        <div  id="test-bar" class="progress-bar progress-bar-info"></div>
-                    </div>
-                    <div class="alert alert-info" id="test-text"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--update problems-->
-    <div class="col-sm-6">
-        <div class="panel panel-default ">
-            <div class="panel-heading">
-                <h3 class="panel-title">Update problems</h3>
-            </div>
-            <div class="panel-body ">
-                <div class="text-center">
-                    <p>
-                        ...
-                    </p>
-                    <a id = "update-btn" class="btn btn-default" role="button"> update problems </a>
-                </div>
-                <div  class= "col-sm-12"  style="display:none;" id="update-report">
-                    <div class="progress">
-                        <div  id="update-bar" class="progress-bar progress-bar-info"></div>
-                    </div>
-                    <div class="alert alert-info" id="update-text"></div>
-                </div>
-            </div>
-        </div>
-    </div>
 
+<div class="col-sm-8 col-centered">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> MOONBOARD Hold Sets </h3>
+        </div>
+        <div class="panel-body">
+            <p >
+                Select the hold setup of your MOONBOARD.
+            </p>
+            <select id="select-hold-setup"  class="selectpicker form-control">
+                {% for k, value in holds_setup.iteritems() %}
+                <option value={{k}} {% if value['selected'] %} selected {% endif %}>{{ value['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <!---->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title"> MOONBOARD LEDS settings </h2>
+        </div>
+        <div class="panel-body">
+            <p >
+                Select brightness
+            </p>
+            <select id="select-brightness"  class="selectpicker form-control">
+                {% for value in brightness_levels.keys() %}
+                <option value={{value}} {% if value==brightness %} selected {% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            <!--<input id="led-brightness" type="range" min="0" max="200" value="50" step="25" />-->
+            <!--<div class="text-center">-->
+                <!--<p>-->
+                    <!--test-->
+                <!--&lt;!&ndash;</p>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<p class="text-center">-->
+                <!--<a id = "led-test-btn" class="btn btn-default" role="button"> Test LEDS </a>-->
+            <!--</p>-->
+            <!--<div  class= "col-sm-12" id="test-report">-->
+                <!--<div class="progress">-->
+                    <!--<div  id="test-bar" class="progress-bar progress-bar-info"></div>-->
+                <!--</div>-->
+                <!--<div class="alert alert-info" id="test-text"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
 </div>
+
 
 {% endblock %}
 
