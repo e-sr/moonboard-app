@@ -4,10 +4,12 @@
 
 {% block content %}
 <div class="row ">
-    <div class="col-sm-3">
-        <div class="input-group">
-            <span class="input-group-addon" id="search-addon"><span class="glyphicon glyphicon-search"></span></span>
-            <input id="search" type="text" class="form-control" >
+    <div class="col-sm-8">
+        <div class="btn-toolbar mb-3" role="toolbar">
+            <a id= "search-button" class="btn btn-default"   data-target="#"><span class="glyphicon glyphicon-search"></span> Search</a>
+              <div class="input-group">
+                  <input id="search-txt" type="text" class="form-control" >
+              </div>
         </div>
     </div>
     <div class="col-sm-2">
@@ -18,7 +20,18 @@
         </div>
     </div>
 </div>
-<div class="row ">
+<div class="row">
+    <div class="col-sm-12">
+    <table class='table' id="problemsbyholdstable" >
+        <thead>
+        <tr>
+            {% for col in columns %}
+            <th>{{ col }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+    </table>
+    </div>
 </div>
 
 {% endblock %}

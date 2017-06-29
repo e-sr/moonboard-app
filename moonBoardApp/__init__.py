@@ -103,18 +103,16 @@ def get_problems_data():
     else:
         return json.dumps({"data":PROBLEMS_DATA})
 
-@app.route('/_get_problems_by_holds')
+@app.route('/_get_problems_by_holds',methods=['POST','GET'])
 def get_problems_by_holds():
-    holds = request.args.get('holds')
-    holds = holds.split(',')
-    prob = PROBLEMS_DATA_BY_HOLDS[holds[0]]
-    for h in holds[1:]:
-        prob = prob.isin(PROBLEMS_DATA_BY_HOLDS[h])
-
-    data = [r for r in PROBLEMS_DATA if r in prob]
+    holds = request.form['holds']
+    holds = holds.replace(';',',').split(',')
+    print(holds)
+    matching_problems = set.intersection(*[PROBLEMS_DATA_BY_HOLDS.get(h.strip(),set([])) for h in holds])
+    data = [r for r in PROBLEMS_DATA if r['id'] in matching_problems]
     for r in data:
         r['favorite'] = r['id'] in FAVORITES
-    return json.dumps({"data":PROBLEMS_DATA})
+    return json.dumps({"data":data})
 
 @app.route('/_select_problem', methods=['POST'])
 def select_problem():
@@ -171,7 +169,9 @@ def favorites_table():
 
 @app.route('/search_by_holds')
 def search_by_holds():
-    return render_template('search_by_holds.html')
+    init_problems_var()
+    columns = ['name', 'grade', 'author','favorite']
+    return render_template('search_by_holds.html', columns = columns)
 
 ############
 #settings

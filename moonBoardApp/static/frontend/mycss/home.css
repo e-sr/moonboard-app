@@ -1,21 +1,20 @@
 th { font-size: 18px; }
 td { font-size: 18px; }
 
-#problemstable {
+.table {
     font-weight: normal;
 }
 
-#problemstable thead tr th{
+.table thead tr th{
     border-collapse:collapse ;
     border-bottom: none;
 }
 
-#problemstable tbody tr th{
+.table tbody tr th{
     border-collapse:collapse ;
-    border-top: 1px solid red;
 }
 
-#problemstable  tbody:before {
+.table  tbody:before {
     content: "-";
     display: block;
     line-height: 0.8em;

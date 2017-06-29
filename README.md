@@ -65,13 +65,17 @@ Before the listed steps basics setup of the raspberry is necessary(wifi, touchsc
         ```
 5. Enable spi on rpi (raspy-config)
 6. Connect LEDS (wire power supply directly to led strips)
-7. (optional) Setup Rpi to start Chromium in kiosk mode at startup. Follow [link1](https://www.danpurdy.co.uk/wp-content/cache/page_enhanced/www.danpurdy.co.uk/web-development/raspberry-pi-kiosk-screen-tutorial/_index.html
-),
-[link2](https://gist.github.com/jongrover/6831346)
+
+**Optional steps**
+7. Setup Rpi to start Chromium in kiosk mode at startup. Follow [link1](https://www.danpurdy.co.uk/wp-content/cache/page_enhanced/www.danpurdy.co.uk/web-development/raspberry-pi-kiosk-screen-tutorial/_index.html
+), [link2](https://gist.github.com/jongrover/6831346)
+
 8. Setup rpi to periodically update the problem list. Create crontab job which run the moonboard_problems.py script.
     ```sh
     crontab -e
     ```
+9. Add shutdown button as in this [link](https://gilyes.com/pi-shutdown-button/)
+
 
 ## Contribute
 

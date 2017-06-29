@@ -20938,19 +20938,36 @@ return DataTable.select;
 
 
 // functions
-function update_images(){
-    d = new Date();
-    $('#board-modal-img').attr("src","/static/img/current_problem.png?"+d.getTime());
-    }
 
 //=============================
 $(document).ready(function() {
 console.log("doc "+ window.location.pathname+" ready")
 
+function update_images(){
+    d = new Date();
+    $('#board-modal-img').attr("src","/static/img/current_problem.png?"+d.getTime());
+    }
+
+function set_selected(id,name,holds_setup,SH,IH,FH){
+    if(id==null){
+        document.getElementById("info-button").classList.add("disabled");
+        document.getElementById("info-button").style.visibility = 'hidden';
+    }else{
+        document.getElementById("info-button").classList.remove("disabled");
+        document.getElementById("info-button").style.visibility = 'visible';
+    };
+    $('#hold-setup').html(holds_setup.join(' + '));
+    $('#SH').html(SH.join(', ') );
+    $('#IH').html(IH.join(', ') );
+    $('#FH').html(FH.join(', ') );
+    $('#problem-name').html("<b>"+name+"</b>");
+    $.post( "/_select_problem", {problem_id: id}, update_images());
+};
+
 //
 if(window.location.pathname=='/problems_table'){
     //
-    var problems = $('#problemstable').dataTable( {
+    var problems = $('#problemstable').DataTable( {
         sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-center'p>>",
         ajax:"_get_problems?favorites=False",
         columns: [
@@ -20972,7 +20989,7 @@ if(window.location.pathname=='/problems_table'){
         iDisplayLength: 5
     });
 
-    problems.on('change', 'input.favorites', function() {
+    problems.on('change', 'input.favorites', function () {
        if($(this).is(":checked")) {
           console.log('add to favorites '+$(this).prop('value'));
           $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"add" });
@@ -20980,7 +20997,7 @@ if(window.location.pathname=='/problems_table'){
           console.log('rm from favorites '+$(this).prop('value'));
           $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"rm" });
        };
-    });
+       });
 
     $("#select-grades").on('changed.bs.select',
     function( event ){
@@ -20998,7 +21015,7 @@ if(window.location.pathname=='/problems_table'){
 //##################################
 //
 }else if(window.location.pathname=='/favorites_table'){
-    var problems = $('#favoritestable').dataTable( {
+    var problems = $('#favoritestable').DataTable( {
         sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-center'p>>",
         ajax:"_get_problems?favorites=True",
         columns: [
@@ -21025,15 +21042,14 @@ if(window.location.pathname=='/problems_table'){
             var problem = table.row($(value).closest('tr'));
             console.log('remove favorite ' + problem.data().id);
             $.post( "/_set_as_favorites", {problem_id:problem.data().id, action:"rm" });
-            if (table.rows('.selected').length>0){
-                if(table.row('.selected').data().id==problem.data().id){
-                    set_selected(null,"",[""],[""],[""],[""]);
-                };
-            };
             problem.remove();
+//            if (table.rows('.selected').any()){
+//                if(table.row('.selected').data().id==problem.data().id){
+//                    set_selected(null,"",[""],[""],[""],[""]);
+//                };
+//            };
         });
         table.draw();
-        //
     } );
 
     $('#deleteall-button').on( 'click', function () {
@@ -21042,24 +21058,51 @@ if(window.location.pathname=='/problems_table'){
         $('#favoritestable').DataTable().clear().draw();
         set_selected(null,"",[""],[""],[""],[""]);
     } );
+}else if(window.location.pathname=='/search_by_holds'){
+    var problems = $('#problemsbyholdstable').DataTable({
+        sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-center'p>>",
+        ajax:{
+            "url": "_get_problems_by_holds",
+            "type": 'POST',
+            "data": function (d){d.holds = $('#search-txt').val();}
+            },
+        columns: [
+        { data: "name" },
+        { data: "grade" },
+        { data: "author" },
+        { render: function ( data, type, row ) {
+                    return '<input type="checkbox"  value='+ row.id + ' class="favorites">';
+                }
+        }],
+        rowCallback: function ( row, data ) {
+            // Set the checked state of the checkbox in the table
+            $('input.favorites', row).prop( 'checked', data.favorite );
+        },
+        select:{"style":"single",
+                "selector": 'td:not(:last-child)' // no row selection on last column
+                },
+        pagingType: "simple_numbers",
+        iDisplayLength: 5
+        });
+
+    $('#search-button').on('click',function(){
+        console.log($('#search-txt').val());
+        $('#problemsbyholdstable').DataTable().ajax.reload();
+    });
+
+    problems.on('change', 'input.favorites', function () {
+       if($(this).is(":checked")) {
+          console.log('add to favorites '+$(this).prop('value'));
+          $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"add" });
+       }else{
+          console.log('rm from favorites '+$(this).prop('value'));
+          $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"rm" });
+       };
+       });
+
 };
 //######################
 
-function set_selected(id,name,holds_setup,SH,IH,FH){
-    if(id==null){
-        document.getElementById("info-button").classList.add("disabled");
-        document.getElementById("info-button").style.visibility = 'hidden';
-    }else{
-        document.getElementById("info-button").classList.remove("disabled");
-        document.getElementById("info-button").style.visibility = 'visible';
-    };
-    $('#hold-setup').html(holds_setup.join(' + '));
-    $('#SH').html(SH.join(', ') );
-    $('#IH').html(IH.join(', ') );
-    $('#FH').html(FH.join(', ') );
-    $('#problem-name').html("<b>"+name+"</b>");
-    $.post( "/_select_problem", {problem_id: id}, update_images());
-};
 problems.on('select.dt', function ( e, dt, type, indexes ) {
     var problem = dt.row(indexes).data();
     console.log("Selected problem:"+ problem.id)
@@ -21070,7 +21113,6 @@ problems.on('deselect.dt', function ( e, dt, type, indexes ) {
     console.log("Deselected problem.")
     set_selected(null,"",[""],[""],[""],[""]);
  });
-
 //
 update_images();
 //end document ready
