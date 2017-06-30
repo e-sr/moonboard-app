@@ -47,11 +47,12 @@ PROBLEMS_DATA, PROBLEMS_DATA_BY_HOLDS = problems_data(CURRENT_HOLD_SETUP_KEY,PRO
 
 SELECTED_PROBLEM_KEY = None
 
-def init_problems_var():
+def init_problems_var(clear=False):
     global SELECTED_PROBLEM_KEY, PROBLEMS, PROBLEMS_BY_HOLDS
     SELECTED_PROBLEM_KEY = None
     #turn off leds
-    clear_problem(MOONBOARD_PIXELS)
+    if clear:
+        clear_problem(MOONBOARD_PIXELS)
     #draw empty problem
     draw_Problem({},
                  background_image_path(IMAGE_FOLDER_PATH, CURRENT_HOLD_SETUP_KEY),
@@ -70,7 +71,7 @@ def load_favorites():
     FAVORITES = set(favorites)
 
 load_favorites()
-
+init_problems_var(clear=True)
 
 ####################
 app = Flask(__name__)

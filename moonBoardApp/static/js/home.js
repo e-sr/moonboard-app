@@ -20986,7 +20986,7 @@ if(window.location.pathname=='/problems_table'){
                 "selector": 'td:not(:last-child)' // no row selection on last column
                 },
         pagingType: "simple_numbers",
-        iDisplayLength: 5
+        iDisplayLength: 4
     });
 
     problems.on('change', 'input.favorites', function () {
@@ -21032,7 +21032,7 @@ if(window.location.pathname=='/problems_table'){
                 "selector": 'td:not(:first-child)' // no row selection on last column
                 },
         pagingType: "simple_numbers",
-        iDisplayLength: 8
+        iDisplayLength: 4
     });
 
     $('#delete-button').on( 'click', function () {

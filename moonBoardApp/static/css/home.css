@@ -7374,8 +7374,8 @@ table.dataTable tbody td.selected a {
 
 
 
-th { font-size: 18px; }
-td { font-size: 18px; }
+th { font-size: 20px; }
+td { font-size: 20px; }
 
 .table {
     font-weight: normal;
@@ -7393,7 +7393,7 @@ td { font-size: 18px; }
 .table  tbody:before {
     content: "-";
     display: block;
-    line-height: 0.8em;
+    line-height: 1em;
     color: transparent;
 }
 
