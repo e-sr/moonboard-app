@@ -20989,7 +20989,7 @@ if(window.location.pathname=='/problems_table'){
         iDisplayLength: 4
     });
 
-    $('#problemstable').DataTable().column(1).search('^('+$("#select-grades").val().join('$)|(^')+'$)',regex=true).draw();
+//    $('#problemstable').DataTable().column(1).search('^('+$("#select-grades").val().join('$)|(^')+'$)',regex=true).draw();
 
     problems.on('change', 'input.favorites', function () {
        if($(this).is(":checked")) {
