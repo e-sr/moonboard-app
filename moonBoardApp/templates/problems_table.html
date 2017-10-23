@@ -15,7 +15,7 @@
         <select id="select-grades" class="selectpicker form-control" multiple
                 data-actions-box="true" data-multiple-separator=" | ">
             {% for grade in grades %}
-            <option value={{grade.replace('+','\+')}} selected>{{grade}}</option>
+            <option value={{grade.replace('+','\+')}} >{{grade}}</option>
             {% endfor %}
         </select>
     </div>

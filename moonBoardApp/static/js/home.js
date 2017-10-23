@@ -20989,6 +20989,8 @@ if(window.location.pathname=='/problems_table'){
         iDisplayLength: 4
     });
 
+    $('#problemstable').DataTable().column(1).search('^('+$("#select-grades").val().join('$)|(^')+'$)',regex=true).draw();
+
     problems.on('change', 'input.favorites', function () {
        if($(this).is(":checked")) {
           console.log('add to favorites '+$(this).prop('value'));
@@ -20999,7 +21001,7 @@ if(window.location.pathname=='/problems_table'){
        };
        });
 
-    $("#select-grades").on('changed.bs.select',
+    $("#select-grades").on('hide.bs.select',
     function( event ){
         var grades = $(this).val();
         if(grades == null){grades=[];}
@@ -21007,7 +21009,7 @@ if(window.location.pathname=='/problems_table'){
         $('#problemstable').DataTable().column(1).search('^('+grades.join('$)|(^')+'$)',regex=true).draw();
     });
 
-    $("#search").on('keyup',//'hide.bs.select',
+    $("#search").on('keyup',//,
     function( event ){
         console.log("text",$(this).val());
         $('#problemstable').DataTable().search($(this).val()).draw();
@@ -21058,49 +21060,62 @@ if(window.location.pathname=='/problems_table'){
         $('#favoritestable').DataTable().clear().draw();
         set_selected(null,"",[""],[""],[""],[""]);
     } );
-}else if(window.location.pathname=='/search_by_holds'){
-    var problems = $('#problemsbyholdstable').DataTable({
-        sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-center'p>>",
-        ajax:{
-            "url": "_get_problems_by_holds",
-            "type": 'POST',
-            "data": function (d){d.holds = $('#search-txt').val();}
-            },
-        columns: [
-        { data: "name" },
-        { data: "grade" },
-        { data: "author" },
-        { render: function ( data, type, row ) {
-                    return '<input type="checkbox"  value='+ row.id + ' class="favorites">';
-                }
-        }],
-        rowCallback: function ( row, data ) {
-            // Set the checked state of the checkbox in the table
-            $('input.favorites', row).prop( 'checked', data.favorite );
-        },
-        select:{"style":"single",
-                "selector": 'td:not(:last-child)' // no row selection on last column
-                },
-        pagingType: "simple_numbers",
-        iDisplayLength: 5
-        });
 
-    $('#search-button').on('click',function(){
-        console.log($('#search-txt').val());
-        $('#problemsbyholdstable').DataTable().ajax.reload();
-    });
+//    $('#load-button').on( 'click', function () {
+//        console.log('load favorites ');
+//        $.post( "/favorites_table", {file:"contest" });
+////        r.load();
+//    } );
 
-    problems.on('change', 'input.favorites', function () {
-       if($(this).is(":checked")) {
-          console.log('add to favorites '+$(this).prop('value'));
-          $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"add" });
-       }else{
-          console.log('rm from favorites '+$(this).prop('value'));
-          $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"rm" });
-       };
-       });
+    $('#export-button').on( 'click', function () {
+        console.log('export favorites ');
+        $.post( "/_export_favorites", {path:"path" });
+    } );
 
-};
+}
+//else if(window.location.pathname=='/search_by_holds'){
+//    var problems = $('#problemsbyholdstable').DataTable({
+//        sDom: "t<'row'<'col-sm-2 text-left' i>><'row'<'col-sm-12 text-center'p>>",
+//        ajax:{
+//            "url": "_get_problems_by_holds",
+//            "type": 'POST',
+//            "data": function (d){d.holds = $('#search-txt').val();}
+//            },
+//        columns: [
+//        { data: "name" },
+//        { data: "grade" },
+//        { data: "author" },
+//        { render: function ( data, type, row ) {
+//                    return '<input type="checkbox"  value='+ row.id + ' class="favorites">';
+//                }
+//        }],
+//        rowCallback: function ( row, data ) {
+//            // Set the checked state of the checkbox in the table
+//            $('input.favorites', row).prop( 'checked', data.favorite );
+//        },
+//        select:{"style":"single",
+//                "selector": 'td:not(:last-child)' // no row selection on last column
+//                },
+//        pagingType: "simple_numbers",
+//        iDisplayLength: 5
+//        });
+//
+//    $('#search-button').on('click',function(){
+//        console.log($('#search-txt').val());
+//        $('#problemsbyholdstable').DataTable().ajax.reload();
+//    });
+//
+//    problems.on('change', 'input.favorites', function () {
+//       if($(this).is(":checked")) {
+//          console.log('add to favorites '+$(this).prop('value'));
+//          $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"add" });
+//       }else{
+//          console.log('rm from favorites '+$(this).prop('value'));
+//          $.post( "/_set_as_favorites", {problem_id:$(this).prop('value'), action:"rm" });
+//       };
+//       });
+//
+//};
 //######################
 
 problems.on('select.dt', function ( e, dt, type, indexes ) {

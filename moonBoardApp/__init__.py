@@ -27,6 +27,8 @@ STATIC_FILE_PATH = APP_ROOT.joinpath('static')
 IMAGE_FOLDER_PATH  = STATIC_FILE_PATH.joinpath("img")
 PROBLEMS_DIR_PATH = APP_ROOT.joinpath('problems')
 PROBLEM_IMAGE_PATH = IMAGE_FOLDER_PATH.joinpath('current_problem.png')
+FAVORITES_PATH = APP_ROOT.joinpath('favorites').joinpath('contest.json')
+
 #problems
 LED_BRIGHTNESS_LEVELS={"Low":80,"Medium":100,"High":150}
 LED_BRIGHTNESS = "Medium"
@@ -65,9 +67,14 @@ def init_problems_var(clear=False):
 
 #FAvorites
 FAVORITES = set()
-def load_favorites():
+
+def load_favorites(path=None):
     global FAVORITES
-    favorites = list()
+    if path is not None:
+        file_content = json.load(open(path, 'r+'))
+        favorites = list(file_content.keys())
+    else:
+        favorites = list()
     FAVORITES = set(favorites)
 
 load_favorites()
@@ -104,16 +111,16 @@ def get_problems_data():
     else:
         return json.dumps({"data":PROBLEMS_DATA})
 
-@app.route('/_get_problems_by_holds',methods=['POST','GET'])
-def get_problems_by_holds():
-    holds = request.form['holds']
-    holds = holds.replace(';',',').split(',')
-    print(holds)
-    matching_problems = set.intersection(*[PROBLEMS_DATA_BY_HOLDS.get(h.strip(),set([])) for h in holds])
-    data = [r for r in PROBLEMS_DATA if r['id'] in matching_problems]
-    for r in data:
-        r['favorite'] = r['id'] in FAVORITES
-    return json.dumps({"data":data})
+# @app.route('/_get_problems_by_holds',methods=['POST','GET'])
+# def get_problems_by_holds():
+#     holds = request.form['holds']
+#     holds = holds.replace(';',',').split(',')
+#     print(holds)
+#     matching_problems = set.intersection(*[PROBLEMS_DATA_BY_HOLDS.get(h.strip(),set([])) for h in holds])
+#     data = [r for r in PROBLEMS_DATA if r['id'] in matching_problems]
+#     for r in data:
+#         r['favorite'] = r['id'] in FAVORITES
+#     return json.dumps({"data":data})
 
 @app.route('/_select_problem', methods=['POST'])
 def select_problem():
@@ -160,11 +167,30 @@ def set_as_favorites():
     elif action=='rmall':
         print("Remove all problems from favorites")
         FAVORITES = set()
+
+    return "OK"
+
+@app.route('/_export_favorites', methods=['POST'])
+def export_favorites():
+    favorites = {}
+    key = ["name", "author", "grade","site_id"]
+
+    for r in PROBLEMS_DATA:
+        if r['favorite']:
+            favorites[r['site_id']]={k:v for k,v in r.items() if k in key}
+
+    with open(str(FAVORITES_PATH),'w+') as output:
+        # Pickle dictionary using protocol 0.
+        json.dump(favorites,output)
+
     return "OK"
 
 @app.route('/favorites_table')
 def favorites_table():
     init_problems_var()
+    if (request.args.get('file') == 'contest'):
+        path=str(FAVORITES_PATH)
+        load_favorites(path)
     columns = ["",'name', 'grade', 'author']
     return render_template('favorites_table.html',columns = columns)
 
