@@ -21124,10 +21124,10 @@ problems.on('select.dt', function ( e, dt, type, indexes ) {
     set_selected(problem.id,problem.name,problem.holds_setup_short,problem.holds.SH,problem.holds.IH,problem.holds.FH);
  });
 
-problems.on('deselect.dt', function ( e, dt, type, indexes ) {
-    console.log("Deselected problem.")
-    set_selected(null,"",[""],[""],[""],[""]);
- });
+//problems.on('deselect.dt', function ( e, dt, type, indexes ) {
+//    console.log("Deselected problem.")
+//    set_selected(null,"",[""],[""],[""],[""]);
+// });
 //
 update_images();
 //end document ready
