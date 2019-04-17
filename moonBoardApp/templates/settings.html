@@ -14,13 +14,13 @@
                 Select the hold setup of your MOONBOARD.
             </p>
             <select id="select-hold-setup"  class="selectpicker form-control">
-                {% for k, value in holds_setup.iteritems() %}
+                {% for k, value in holds_setup.items() %}
                 <option value={{k}} {% if value['selected'] %} selected {% endif %}>{{ value['name'] }}</option>
                 {% endfor %}
             </select>
         </div>
     </div>
-    <!---->
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="panel-title"> MOONBOARD LEDS settings </h2>
@@ -34,21 +34,6 @@
                 <option value={{value}} {% if value==brightness %} selected {% endif %}>{{ value }}</option>
                 {% endfor %}
             </select>
-            <!--<input id="led-brightness" type="range" min="0" max="200" value="50" step="25" />-->
-            <!--<div class="text-center">-->
-                <!--<p>-->
-                    <!--test-->
-                <!--&lt;!&ndash;</p>&ndash;&gt;-->
-            <!--</div>-->
-            <!--<p class="text-center">-->
-                <!--<a id = "led-test-btn" class="btn btn-default" role="button"> Test LEDS </a>-->
-            <!--</p>-->
-            <!--<div  class= "col-sm-12" id="test-report">-->
-                <!--<div class="progress">-->
-                    <!--<div  id="test-bar" class="progress-bar progress-bar-info"></div>-->
-                <!--</div>-->
-                <!--<div class="alert alert-info" id="test-text"></div>-->
-            <!--</div>-->
         </div>
     </div>
 </div>
