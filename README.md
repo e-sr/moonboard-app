@@ -7,7 +7,7 @@ I also added added options to setup on-the-fly custom problems, run calibration 
 
 Moonboard LED DIY is an open source Web-application for driving MoonBoard LEDs. "The Moonboard LED DIY" consist on a webserver (programmed in
 python using flask) hosted on the Raspberry pi. The webserver host a simple web application (user interface) accessible with a webbrowser.
-Depending on the user actions the LEDS are driven by the raspberry using the SPI port.
+Depending on the user actions the LEDS are driven by the raspberry.
 
 On the raspberry Chromium is automatically loaded at startup and connect automatically to the webserver on `localhost:5000`.
 
@@ -63,8 +63,7 @@ Before the listed steps basics setup of the raspberry is necessary(wifi, touchsc
         WantedBy=multi-user.target
 
         ```
-5. Enable spi on rpi (raspy-config)
-6. Connect LEDS (wire power supply directly to led strips)
+5. Connect LEDS (wire power supply directly to led strips)
 
 **Optional steps**
 7. Setup Rpi to start Chromium in kiosk mode at startup. Follow [link1](https://www.danpurdy.co.uk/wp-content/cache/page_enhanced/www.danpurdy.co.uk/web-development/raspberry-pi-kiosk-screen-tutorial/_index.html
