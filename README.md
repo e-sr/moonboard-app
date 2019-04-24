@@ -1,6 +1,8 @@
 Moonboard LED DIY
 ========
 
+This project is heavily baseon https://github.com/e-sr/moonboard-app. The drivers have been updated to use WS2811 LEDs which are the original ones used by Moon. The software was migrated to Python3 and the latest bibliopixel library.
+
 Moonboard LED DIY is an open source Web-application for driving MoonBoard LEDs. "The Moonboard LED DIY" consist on a webserver (programmed in
 python using flask) hosted on the Raspberry pi. The webserver host a simple web application (user interface) accessible with a webbrowser.
 Depending on the user actions the LEDS are driven by the raspberry using the SPI port.
@@ -9,8 +11,6 @@ On the raspberry Chromium is automatically loaded at startup and connect automat
 
 **Remarks**
 1. The  web app is in development status.
-2. The problems are automatically downloaded from the moon [website](http://www.moonboard.com/problems/) and stored in a json file.
- Further improvements is to implement a public database (accesible througth RESTFUL api) to store all sort of moonboard  problem data.
 3. The app has ben developed to work on a raspberry pi with touch screen and chromium webbroser. Other possybilty are welcome
 4. The Moonboard LED DIY is not compatible with the moonboard app for smartphones.
 
@@ -22,15 +22,13 @@ On the raspberry Chromium is automatically loaded at startup and connect automat
 - [Raspberry Pi](https://www.raspberrypi.org/products/) or similar, necessary an SPI interface for driving the LEDS.
 - [Touchscreen](https://www.raspberrypi.org/products/raspberry-pi-touch-display/)
 - 5V power supply, ~ 20W
-- 4x50 LEDs, addressable led pixels. I bought WS2801 LED pixels(4-wire SPI) with custom cable lenght of 25cm on Aliexpress.
-I was happy with [this](https://it.aliexpress.com/store/312912) seller.
-
+- [Moonboard LEDS](https://moonclimbing.com/moonboard-led-kit-1.html) or any other WS2811 addressable led pixels.
 
 Before the listed steps basics setup of the raspberry is necessary(wifi, touchscreen, accounts,...). After:
 
 1. clone git repo on rpi
 
-3. setup python2.7:
+3. setup python3:
     - install and setup virtualenvwrapper
     - install eventlet and pillow from  raspbian repos
         ```sh
