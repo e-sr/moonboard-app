@@ -10,6 +10,7 @@ import eventlet
 from BiblioPixelAnimations.matrix.ImageAnim import ImageAnim
 from BiblioPixelAnimations.matrix.MatrixRain import MatrixRain, MatrixRainBow
 from BiblioPixelAnimations.matrix.bloom import Bloom
+from BiblioPixelAnimations.matrix.pinwheel import Pinwheel
 from bibliopixel.animation import MatrixCalibrationTest
 from bibliopixel.colors import COLORS
 from flask import Flask, request, redirect, render_template, url_for
@@ -283,6 +284,12 @@ def _matrix_rainbow():
 @app.route('/_mario', methods=['POST'])
 def _mario():
     MOONBOARD.run_animation(ImageAnim, scale_to='fit')
+    return 'OK'
+
+
+@app.route('/_pinwheel', methods=['POST'])
+def _pinwheel():
+    MOONBOARD.run_animation(Pinwheel)
     return 'OK'
 
 
