@@ -12310,7 +12310,7 @@
 		 *      function notation is recommended for use in `render` rather than
 		 *      `data` as it is much simpler to use as a renderer.
 		 * * `null` - use the original data source for the row rather than plucking
-		 *   data directly from it. This action has effects on two other
+		 *   data directly from it. This action has utils on two other
 		 *   initialisation options:
 		 *    * `defaultContent` - When null is given as the `data` option and
 		 *      `defaultContent` is specified for the column, the value defined by

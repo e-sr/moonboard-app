@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}MOONBOARD APP - Custom Problem{% endblock %}
+
+{% block content %}
+
+    <div class="col-sm-8 col-centered">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Custom Problem</h2>
+            </div>
+            <div class="panel-body">
+                <p class="text-center">
+                <form>
+                    <div class="form-group">
+                        <label for="initialHolds">Initial Holds</label>
+                        <input type="text" class="keyboard form-control" id="initialHolds" aria-describedby="initialHoldsHelp"
+                               placeholder="Enter initial holds">
+                        <small id="initialHoldsHelp" class="form-text text-muted">e.g. G4,I5</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="intermediateHolds">Intermediate Holds</label>
+                        <input type="text" class="keyboard form-control" id="intermediateHolds" aria-describedby="intermediateHoldsHelp"
+                               placeholder="Enter intermediate holds">
+                        <small id="intermediateHoldsHelp" class="form-text text-muted">e.g. H9,F12,H14</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="finishHolds">Finish Holds</label>
+                        <input type="text" class="keyboard form-control" id="finishHolds" aria-describedby="finishHoldsHelp"
+                               placeholder="Enter finish holds">
+                        <small id="finishHoldsHelp" class="form-text text-muted">e.g. D18</small>
+                    </div>
+                    <button id="custom-problem-btn" set-type="submit" class="btn btn-primary">Set</button>
+                    <button id="clear-btn" set-type="submit" class="btn btn-primary">Clear Wall</button>
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
