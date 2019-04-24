@@ -1,7 +1,7 @@
 Moonboard LED DIY
 ========
 
-This project is heavily baseon https://github.com/e-sr/moonboard-app. The drivers have been updated to use WS2811 LEDs which are the original ones used by Moon. The software was migrated to Python3 and the latest bibliopixel library.
+This project is heavily baseon https://github.com/e-sr/moonboard-app. The drivers have been updated to use WS2811 LEDs which are the original ones used by Moon. The software has been migrated to Python3 and the latest bibliopixel library.
 
 Moonboard LED DIY is an open source Web-application for driving MoonBoard LEDs. "The Moonboard LED DIY" consist on a webserver (programmed in
 python using flask) hosted on the Raspberry pi. The webserver host a simple web application (user interface) accessible with a webbrowser.
