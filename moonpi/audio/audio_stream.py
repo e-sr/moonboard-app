@@ -101,22 +101,27 @@ class AudioStream:
         # Find average 'amplitude' for specific frequency ranges in Hz
         power = numpy.abs(fourier)
         matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        weighting = [2, 8, 8, 8, 16, 16, 16, 32, 32, 32, 64]
+        #weighting = [2, 8, 8, 8, 16, 16, 16, 32, 32, 32, 64]
 
-        matrix[0] = int(numpy.mean(power[self.piff(0):self.piff(156):1]))
-        matrix[1] = int(numpy.mean(power[self.piff(156):self.piff(313):1]))
-        matrix[2] = int(numpy.mean(power[self.piff(313):self.piff(625):1]))
-        matrix[3] = int(numpy.mean(power[self.piff(625):self.piff(1250):1]))
-        matrix[4] = int(numpy.mean(power[self.piff(1250):self.piff(2500):1]))
-        matrix[5] = int(numpy.mean(power[self.piff(2500):self.piff(3500):1]))
-        matrix[6] = int(numpy.mean(power[self.piff(3500):self.piff(4500):1]))
-        matrix[7] = int(numpy.mean(power[self.piff(4500):self.piff(5000):1]))
-        matrix[8] = int(numpy.mean(power[self.piff(5000):self.piff(7500):1]))
-        matrix[9] = int(numpy.mean(power[self.piff(7500):self.piff(10000):1]))
-        matrix[10] = int(numpy.mean(power[self.piff(10000):self.piff(20000):1]))
+        matrix[0] = int(numpy.mean(power[self.piff(0):self.piff(60):1]))
+        matrix[1] = int(numpy.mean(power[self.piff(60):self.piff(250):1]))
 
+        matrix[2] = int(numpy.mean(power[self.piff(250):self.piff(330):1]))
+        matrix[3] = int(numpy.mean(power[self.piff(330):self.piff(410):1]))
+        matrix[4] = int(numpy.mean(power[self.piff(410):self.piff(500):1]))
+
+        matrix[5] = int(numpy.mean(power[self.piff(500):self.piff(2000):1]))
+
+        matrix[6] = int(numpy.mean(power[self.piff(2000):self.piff(4500):1]))
+        matrix[7] = int(numpy.mean(power[self.piff(4000):self.piff(6000):1]))
+
+        matrix[8] = int(numpy.mean(power[self.piff(6000):self.piff(11000):1]))
+        matrix[9] = int(numpy.mean(power[self.piff(11000):self.piff(16000):1]))
+        matrix[10] = int(numpy.mean(power[self.piff(16000):self.piff(20000):1]))
+
+        matrix = numpy.array(matrix)
         # Tidy up column values for the LED matrix
-        matrix = numpy.divide(numpy.multiply(matrix, weighting), 1000000)
+        #matrix = numpy.divide(numpy.multiply(matrix, weighting), 1000000)
         # Set floor at 0 and ceiling at 8 for LED matrix
         matrix = numpy.interp(matrix, (0, matrix.max()), (0, max_y)).astype(int)
         return matrix
