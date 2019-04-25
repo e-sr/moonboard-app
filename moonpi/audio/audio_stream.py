@@ -1,4 +1,5 @@
 import threading
+import time
 from collections import deque
 
 import numpy
@@ -70,6 +71,7 @@ class AudioStream:
                 self.audio[i * BUFFERSIZE:(i + 1) * BUFFERSIZE] = self.get_audio()
             if not forever:
                 break
+            time.sleep(0.01)
 
     def continuousStart(self):
         """CALL THIS to start running forever."""
