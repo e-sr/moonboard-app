@@ -1,3 +1,4 @@
+import threading
 from collections import deque
 
 import numpy
@@ -5,9 +6,9 @@ import pyaudio
 
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-#RATE = 44100
-#INPUT_BLOCK_TIME = 0.05
-#INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
+# RATE = 44100
+# INPUT_BLOCK_TIME = 0.05
+# INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
 
 RATE = 48100
 BUFFERSIZE = 2 ** 12  # 4069 is a good buffer size
@@ -34,6 +35,7 @@ class AudioStream:
 
         self.xsBuffer = numpy.arange(BUFFERSIZE) * self.secPerPoint
         self.xs = numpy.arange(self.chunksToRecord * BUFFERSIZE) * self.secPerPoint
+        self.audio = numpy.empty((self.chunksToRecord * BUFFERSIZE), dtype=numpy.int16)
 
     def find_input_device(self):
         device_index = None
@@ -61,15 +63,21 @@ class AudioStream:
         audio_stream = self.stream.read(BUFFERSIZE)
         return numpy.fromstring(audio_stream, dtype=numpy.int16)
 
-    def record(self):
+    def record(self, forever=True):
         """get a single buffer size worth of audio."""
-        audio = numpy.empty((self.chunksToRecord * BUFFERSIZE), dtype=numpy.int16)
-        for i in range(self.chunksToRecord):
-            audio[i * BUFFERSIZE:(i + 1) * BUFFERSIZE] = self.get_audio()
-        return audio
+        while True:
+            for i in range(self.chunksToRecord):
+                self.audio[i * BUFFERSIZE:(i + 1) * BUFFERSIZE] = self.get_audio()
+            if not forever:
+                break
+
+    def continuousStart(self):
+        """CALL THIS to start running forever."""
+        self.t = threading.Thread(target=self.record)
+        self.t.start()
 
     def fft(self, x_max, y_max):
-        data = self.record().flatten()
+        data = self.audio.flatten()
         left, right = numpy.split(numpy.abs(numpy.fft.fft(data)), 2)
         ys = numpy.add(left, right[::-1])
 
