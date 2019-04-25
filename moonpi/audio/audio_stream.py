@@ -11,7 +11,7 @@ FORMAT = pyaudio.paInt16
 # INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
 
 BUFFER_SIZE = 2 ** 12  # 4069 is a good buffer size
-secToRecord = .1
+secToRecord = .05
 
 
 class AudioStream:
