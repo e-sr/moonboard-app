@@ -10,8 +10,8 @@ FORMAT = pyaudio.paInt16
 # INPUT_BLOCK_TIME = 0.05
 # INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
 
-BUFFER_SIZE = 2 ** 12  # 4069 is a good buffer size
-secToRecord = .05
+BUFFER_SIZE = 2 ** 12  # 4096 is a good buffer size
+secToRecord = .1
 
 
 class AudioStream:
@@ -23,22 +23,22 @@ class AudioStream:
         device_index = self.find_input_device()
         device_info = self.pa.get_device_info_by_index(device_index)
         print('device info: %s' % device_info)
-        rate = int(device_info['defaultSampleRate'])
+        self.rate = int(device_info['defaultSampleRate'])
         channels = device_info['maxInputChannels']
         self.stream = self.pa.open(format=FORMAT,
                                    channels=channels,
-                                   rate=rate,
+                                   rate=self.rate,
                                    input=True,
                                    output=False,
                                    input_device_index=device_index,
                                    frames_per_buffer=BUFFER_SIZE)
 
-        self.buffersToRecord = int(rate * secToRecord / BUFFER_SIZE)
+        self.buffersToRecord = int(self.rate * secToRecord / BUFFER_SIZE)
         if self.buffersToRecord == 0:
             self.buffersToRecord = 1
         self.samplesToRecord = int(BUFFER_SIZE * self.buffersToRecord)
         self.chunksToRecord = int(self.samplesToRecord / BUFFER_SIZE)
-        self.secPerPoint = 1.0 / rate
+        self.secPerPoint = 1.0 / self.rate
         self.xsBuffer = numpy.arange(BUFFER_SIZE) * self.secPerPoint
         self.xs = numpy.arange(self.chunksToRecord * BUFFER_SIZE) * self.secPerPoint
         self.audio = numpy.empty((self.chunksToRecord * BUFFER_SIZE), dtype=numpy.int16)
@@ -87,17 +87,29 @@ class AudioStream:
         self.t = threading.Thread(target=self.record)
         self.t.start()
 
-    def fft(self, x_max, y_max):
-        data = self.audio.flatten()
-        left, right = numpy.split(numpy.abs(numpy.fft.fft(data)), 2)
-        ys = numpy.add(left, right[::-1])
+    # Return power array index corresponding to a particular frequency
+    def piff(self, val):
+        return int(2 * BUFFER_SIZE * val / self.rate)
+    
+    def fft(self):
+        data = self.get_audio().flatten()
+        fourier = numpy.fft.rfft(data)
+        fourier = numpy.delete(fourier, len(fourier) - 1)
+        power = numpy.abs(fourier)
+        matrix = [0, 0, 0, 0, 0, 0, 0, 0]
+        weighting = [2, 8, 8, 16, 16, 32, 32, 64]
 
-        # FFT max values can vary widely depending on the hardware/audio setup.
-        # Take the average of the last few values which will keep everything
-        # in a "normal" range (visually speaking). Also makes it volume independent.
-        self.maxVals.append(numpy.amax(ys))
+        matrix[0] = int(numpy.mean(power[self.piff(0):self.piff(156):1]))
+        matrix[1] = int(numpy.mean(power[self.piff(156):self.piff(313):1]))
+        matrix[2] = int(numpy.mean(power[self.piff(313):self.piff(625):1]))
+        matrix[3] = int(numpy.mean(power[self.piff(625):self.piff(1250):1]))
+        matrix[4] = int(numpy.mean(power[self.piff(1250):self.piff(2500):1]))
+        matrix[5] = int(numpy.mean(power[self.piff(2500):self.piff(5000):1]))
+        matrix[6] = int(numpy.mean(power[self.piff(5000):self.piff(10000):1]))
+        matrix[7] = int(numpy.mean(power[self.piff(10000):self.piff(20000):1]))
 
-        ys = ys[:x_max]
-        m = max(100000, numpy.average(self.maxVals))
-        ys = numpy.rint(numpy.interp(ys, [0, m], [0, y_max - 1]))
-        return ys
+        # Tidy up column values for the LED matrix
+        matrix = numpy.divide(numpy.multiply(matrix, weighting), 1000000)
+        # Set floor at 0 and ceiling at 8 for LED matrix
+        matrix = matrix.clip(0, 8)
+        return matrix
