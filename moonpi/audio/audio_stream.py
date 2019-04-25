@@ -6,7 +6,6 @@ import numpy
 import pyaudio
 
 FORMAT = pyaudio.paInt16
-CHANNELS = 1
 # RATE = 44100
 # INPUT_BLOCK_TIME = 0.05
 # INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
@@ -23,11 +22,10 @@ class AudioStream:
         self.pa = pyaudio.PyAudio()
         device_index = self.find_input_device()
         device_info = self.pa.get_device_info_by_index(device_index)
-        print(device_info)
-        rate = device_info['defaultSampleRate']
-
+        rate = int(device_info['defaultSampleRate'])
+        channels = device_info['maxInputChannels]']
         self.stream = self.pa.open(format=FORMAT,
-                                   channels=CHANNELS,
+                                   channels=channels,
                                    rate=rate,
                                    input=True,
                                    output=False,
