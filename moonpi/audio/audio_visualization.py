@@ -14,9 +14,11 @@ class AudioVisualization(BaseMatrixAnim):
     def step(self, amt=1):
         self.layout.all_off()
         eq_data = self.stream.fft()
-        for y in range(8):
-            for x in range(eq_data[y]):
-                self.layout.set(x, y, self.colors[y])
+        print(eq_data)
+        for x in range(8):
+            for y in range(eq_data[x]):
+                self.layout.set(x, self.layout.height - y, self.colors[y])
+
         # x = 0
         # for y in eq_data:
         #     self._led.drawLine(x, self._led.height - 1, x, self._led.height - int(y), colors.hue_helper(int(y), self._led.height, 0))

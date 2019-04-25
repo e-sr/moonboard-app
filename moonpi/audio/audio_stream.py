@@ -97,6 +97,7 @@ class AudioStream:
         fourier = numpy.fft.rfft(data)
         # Remove last element in array to make it the same size as chunk
         fourier = numpy.delete(fourier, len(fourier) - 1)
+
         # Find average 'amplitude' for specific frequency ranges in Hz
         power = numpy.abs(fourier)
         matrix = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -114,5 +115,5 @@ class AudioStream:
         # Tidy up column values for the LED matrix
         matrix = numpy.divide(numpy.multiply(matrix, weighting), 1000000)
         # Set floor at 0 and ceiling at 8 for LED matrix
-        matrix = [int(numpy.interp(x, matrix, range(8))) for x in matrix]
+        matrix = numpy.interp(matrix, (0, matrix.max()), (0, 17)).astype(int)
         return matrix
