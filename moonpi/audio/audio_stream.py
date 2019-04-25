@@ -108,12 +108,12 @@ class AudioStream:
         matrix[2] = int(numpy.mean(power[self.piff(313):self.piff(625):1]))
         matrix[3] = int(numpy.mean(power[self.piff(625):self.piff(1250):1]))
         matrix[4] = int(numpy.mean(power[self.piff(1250):self.piff(2500):1]))
-        matrix[5] = int(numpy.mean(power[self.piff(2500):self.piff(5000):1]))
-        matrix[6] = int(numpy.mean(power[self.piff(5000):self.piff(7500):1]))
-        matrix[7] = int(numpy.mean(power[self.piff(7500):self.piff(10000):1]))
-        matrix[8] = int(numpy.mean(power[self.piff(10000):self.piff(12500):1]))
-        matrix[9] = int(numpy.mean(power[self.piff(12500):self.piff(15000):1]))
-        matrix[10] = int(numpy.mean(power[self.piff(15000):self.piff(20000):1]))
+        matrix[5] = int(numpy.mean(power[self.piff(2500):self.piff(3500):1]))
+        matrix[6] = int(numpy.mean(power[self.piff(3500):self.piff(4500):1]))
+        matrix[7] = int(numpy.mean(power[self.piff(4500):self.piff(5000):1]))
+        matrix[8] = int(numpy.mean(power[self.piff(5000):self.piff(7500):1]))
+        matrix[9] = int(numpy.mean(power[self.piff(7500):self.piff(10000):1]))
+        matrix[10] = int(numpy.mean(power[self.piff(10000):self.piff(20000):1]))
 
         # Tidy up column values for the LED matrix
         matrix = numpy.divide(numpy.multiply(matrix, weighting), 1000000)
