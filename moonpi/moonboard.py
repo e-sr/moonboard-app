@@ -70,7 +70,7 @@ class MoonBoard:
     def run_animation(self, animation, run_options={}, **kwds):
         self.stop_animation()
         self.animation = animation(self.layout, **kwds)
-        self.animation.run(run_options)
+        self.animation.run(**run_options)
 
     def stop_animation(self):
         if self.animation is not None:
