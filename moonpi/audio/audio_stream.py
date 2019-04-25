@@ -11,7 +11,7 @@ CHANNELS = 1
 # INPUT_BLOCK_TIME = 0.05
 # INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
 
-RATE = 44100
+RATE = 48100
 BUFFER_SIZE = 2 ** 12  # 4069 is a good buffer size
 secToRecord = .1
 
