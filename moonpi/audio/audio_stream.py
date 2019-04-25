@@ -12,31 +12,32 @@ CHANNELS = 1
 # INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
 
 RATE = 44100
-BUFFERSIZE = 2 ** 12  # 4069 is a good buffer size
-secToRecord = .05
+BUFFER_SIZE = 2 ** 12  # 4069 is a good buffer size
+secToRecord = .1
 
 
 class AudioStream:
 
     def __init__(self):
         self.maxVals = deque(maxlen=500)
-        self.buffersToRecord = int(RATE * secToRecord / BUFFERSIZE)
+        self.buffersToRecord = int(RATE * secToRecord / BUFFER_SIZE)
         if self.buffersToRecord == 0: self.buffersToRecord = 1
-        self.samplesToRecord = int(BUFFERSIZE * self.buffersToRecord)
-        self.chunksToRecord = int(self.samplesToRecord / BUFFERSIZE)
-        self.secPerPoint = 1.0 / RATE
+        self.samplesToRecord = int(BUFFER_SIZE * self.buffersToRecord)
+        self.chunksToRecord = int(self.samplesToRecord / BUFFER_SIZE)
 
         self.pa = pyaudio.PyAudio()
         self.stream = self.pa.open(format=FORMAT,
                                    channels=CHANNELS,
                                    rate=RATE,
                                    input=True,
+                                   output=False,
                                    input_device_index=self.find_input_device(),
-                                   frames_per_buffer=BUFFERSIZE)
+                                   frames_per_buffer=BUFFER_SIZE)
 
-        self.xsBuffer = numpy.arange(BUFFERSIZE) * self.secPerPoint
-        self.xs = numpy.arange(self.chunksToRecord * BUFFERSIZE) * self.secPerPoint
-        self.audio = numpy.empty((self.chunksToRecord * BUFFERSIZE), dtype=numpy.int16)
+        self.secPerPoint = 1.0 / RATE
+        self.xsBuffer = numpy.arange(BUFFER_SIZE) * self.secPerPoint
+        self.xs = numpy.arange(self.chunksToRecord * BUFFER_SIZE) * self.secPerPoint
+        self.audio = numpy.empty((self.chunksToRecord * BUFFER_SIZE), dtype=numpy.int16)
 
     def find_input_device(self):
         device_index = None
@@ -61,14 +62,14 @@ class AudioStream:
 
     def get_audio(self):
         """get a single buffer size worth of audio."""
-        audio_stream = self.stream.read(BUFFERSIZE)
+        audio_stream = self.stream.read(BUFFER_SIZE)
         return numpy.fromstring(audio_stream, dtype=numpy.int16)
 
     def record(self, forever=True):
         """get a single buffer size worth of audio."""
         while True:
             for i in range(self.chunksToRecord):
-                self.audio[i * BUFFERSIZE:(i + 1) * BUFFERSIZE] = self.get_audio()
+                self.audio[i * BUFFER_SIZE:(i + 1) * BUFFER_SIZE] = self.get_audio()
             if not forever:
                 break
             time.sleep(0.01)
