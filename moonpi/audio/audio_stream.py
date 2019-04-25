@@ -22,8 +22,9 @@ class AudioStream:
         self.pa = pyaudio.PyAudio()
         device_index = self.find_input_device()
         device_info = self.pa.get_device_info_by_index(device_index)
+        print('device info: %s' % device_info)
         rate = int(device_info['defaultSampleRate'])
-        channels = device_info['maxInputChannels]']
+        channels = device_info['maxInputChannels']
         self.stream = self.pa.open(format=FORMAT,
                                    channels=channels,
                                    rate=rate,
