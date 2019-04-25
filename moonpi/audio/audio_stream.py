@@ -80,7 +80,7 @@ class AudioStream:
                 self.audio[i * BUFFER_SIZE:(i + 1) * BUFFER_SIZE] = self.get_audio()
             if not forever:
                 break
-            time.sleep(0.1)
+            time.sleep(0.01)
 
     def continuousStart(self):
         """CALL THIS to start running forever."""
