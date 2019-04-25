@@ -8,6 +8,7 @@ class AudioVisualization(BaseMatrixAnim):
     def __init__(self, layout):
         super(AudioVisualization, self).__init__(layout)
         self.stream = AudioStream()
+        self.stream.continuous_start()
         self.colors = [hue_helper(y, self.height, 0) for y in range(self.height)]
 
     def step(self, amt=1):

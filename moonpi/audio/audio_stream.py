@@ -82,13 +82,12 @@ class AudioStream:
             if not forever:
                 break
 
-    def continuousStart(self):
+    def continuous_start(self):
         """CALL THIS to start running forever."""
         self.t = threading.Thread(target=self.record)
         self.t.start()
 
     def fft(self, x_max, y_max):
-        self.record(forever=False)
         data = self.audio.flatten()
         left, right = numpy.split(numpy.abs(numpy.fft.fft(data)), 2)
         ys = numpy.add(left, right[::-1])
