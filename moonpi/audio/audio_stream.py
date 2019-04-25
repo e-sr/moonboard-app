@@ -11,9 +11,9 @@ CHANNELS = 1
 # INPUT_BLOCK_TIME = 0.05
 # INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
 
-RATE = 48100
+RATE = 44100
 BUFFERSIZE = 2 ** 12  # 4069 is a good buffer size
-secToRecord = .1
+secToRecord = .05
 
 
 class AudioStream:
