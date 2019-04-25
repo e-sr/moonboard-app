@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}MOONBOARD APP - Settings{% endblock %}
+
+{% block content %}
+
+<div class="col-sm-8 col-centered">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> MOONBOARD Hold Sets </h3>
+        </div>
+        <div class="panel-body">
+            <p >
+                Select the hold setup of your MOONBOARD.
+            </p>
+            <select id="select-hold-setup"  class="selectpicker form-control">
+                {% for k, value in holds_setup.items() %}
+                <option value={{k}} {% if value['selected'] %} selected {% endif %}>{{ value['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title"> MOONBOARD LEDS settings </h2>
+        </div>
+        <div class="panel-body">
+            <p >
+                Select brightness
+            </p>
+            <select id="select-brightness"  class="selectpicker form-control">
+                {% for value in brightness_levels.keys() %}
+                <option value={{value}} {% if value==brightness %} selected {% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+

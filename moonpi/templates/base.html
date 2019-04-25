@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Moonboard LED APP">
+
+    <meta name="author" content="esr">
+
+    {% if request.path == '/problems_table' or request.path == '/favorites_table'or request.path == '/search_by_holds' %}
+        {% assets "home_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+        {% endassets %}
+    {% elif request.path == '/settings' %}
+        {% assets "setting_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+        {% endassets %}
+    {% elif request.path == '/utils' %}
+        {% assets "utils_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+        {% endassets %}
+    {% elif request.path == '/audio_visualization' %}
+        {% assets "audio_visualization_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+        {% endassets %}
+    {% elif request.path == '/custom_problem' %}
+        {% assets "custom_js" %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% assets "home_css" %}
+            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+        {% endassets %}
+    {% endif %}
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('problems_table') }}">MOONBOARD</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('custom_problem') }}">Custom Problem</a></li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('favorites_table') }}">Favorites</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        <span class="caret"> </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('utils') }}">Utils</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ url_for('audio_visualization') }}">Audio</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a data-toggle="modal" data-target="#about-modal">About</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+
+<!--aboutmodal-->
+<div class="modal fade" id="about-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h3 class="modal-title" id="board-modal-title">About</h3>
+            </div>
+            <div class="modal-body">
+                <p> Enjoy.
+
+                    ESR</p>
+                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end aboutmodal-->
+{% block boardmodal %}{% endblock %}
+</html>
+
+
+
+

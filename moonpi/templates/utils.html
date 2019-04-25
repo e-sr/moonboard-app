@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}MOONBOARD APP - Effects{% endblock %}
+
+{% block content %}
+
+    <div class="col-sm-8 col-centered">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Testing</h2>
+            </div>
+            <div class="panel-body">
+                <div class="btn-group">
+                    <button id="clear-btn" class="btn btn-default">Clear Wall</button>
+                    <button id="sequence-test-btn" class="btn btn-default">Sequence Test</button>
+                    <button id="matrix-calibration-btn" class="btn btn-default">Matrix Calibration</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Effects</h2>
+            </div>
+            <div class="panel-body">
+                <div class="btn-group">
+                    <button id="bloom-effect-btn" class="btn btn-default">Bloom</button>
+                    <button id="matrix-rain-btn" class="btn btn-default">Matrix Rain</button>
+                    <button id="matrix-rainbow-btn" class="btn btn-default">Matrix Rainbow</button>
+                    <button id="mario-btn" class="btn btn-default">Mario</button>
+                    <button id="pinwheel-btn" class="btn btn-default">Pinwheel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

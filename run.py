@@ -1,4 +1,4 @@
-from moonBoardApp import app, socket
+from moonpi import app, socket
 
 if __name__ == '__main__':
     import argparse
