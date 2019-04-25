@@ -1,75 +1,75 @@
-import threading
-import time
 from collections import deque
 
 import numpy
 import pyaudio
 
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+#RATE = 44100
+#INPUT_BLOCK_TIME = 0.05
+#INPUT_FRAMES_PER_BLOCK = int(RATE * INPUT_BLOCK_TIME)
+
+RATE = 48100
+BUFFERSIZE = 2 ** 12  # 4069 is a good buffer size
+secToRecord = .1
+
 
 class AudioStream:
-    """Simple, cross-platform class to record from the microphone."""
-
-    RATE = 48100
-    """Desired refresh rate of the visualization (frames per second)"""
-    BUFFER_SIZE = 2 ** 12  # 4069 is a good buffer size
 
     def __init__(self):
-        """minimal garb is executed when class is loaded."""
-        self.RATE = 48100
-        self.BUFFER_SIZE = 2 ** 12  # 4069 is a good buffer size
-        self.secToRecord = .1
-        self.threadsDieNow = False
-        self.newAudio = False
         self.maxVals = deque(maxlen=500)
-
-    def setup(self):
-        """initialize sound card."""
-        self.buffersToRecord = int(self.RATE * self.secToRecord / self.BUFFER_SIZE)
+        self.buffersToRecord = int(RATE * secToRecord / BUFFERSIZE)
         if self.buffersToRecord == 0: self.buffersToRecord = 1
-        self.samplesToRecord = int(self.BUFFER_SIZE * self.buffersToRecord)
-        self.chunksToRecord = int(self.samplesToRecord / self.BUFFER_SIZE)
-        self.secPerPoint = 1.0 / self.RATE
+        self.samplesToRecord = int(BUFFERSIZE * self.buffersToRecord)
+        self.chunksToRecord = int(self.samplesToRecord / BUFFERSIZE)
+        self.secPerPoint = 1.0 / RATE
 
-        self.p = pyaudio.PyAudio()
-        self.inStream = self.p.open(format=pyaudio.paInt16, channels=1, rate=self.RATE, input=True, output=False,
-                                    frames_per_buffer=self.BUFFER_SIZE)
+        self.pa = pyaudio.PyAudio()
+        self.stream = self.pa.open(format=FORMAT,
+                                   channels=CHANNELS,
+                                   rate=RATE,
+                                   input=True,
+                                   input_device_index=self.find_input_device(),
+                                   frames_per_buffer=BUFFERSIZE)
 
-        self.xsBuffer = numpy.arange(self.BUFFER_SIZE) * self.secPerPoint
-        self.xs = numpy.arange(self.chunksToRecord * self.BUFFER_SIZE) * self.secPerPoint
-        self.audio = numpy.empty((self.chunksToRecord * self.BUFFER_SIZE), dtype=numpy.int16)
+        self.xsBuffer = numpy.arange(BUFFERSIZE) * self.secPerPoint
+        self.xs = numpy.arange(self.chunksToRecord * BUFFERSIZE) * self.secPerPoint
+
+    def find_input_device(self):
+        device_index = None
+        for i in range(self.pa.get_device_count()):
+            dev_info = self.pa.get_device_info_by_index(i)
+            print("Device %d: %s" % (i, dev_info["name"]))
+
+            for keyword in ["usb", "mic", "input"]:
+                if keyword in dev_info["name"].lower():
+                    print("Found an input: device %d - %s" % (i, dev_info["name"]))
+                    device_index = i
+                    return device_index
+
+        if device_index is None:
+            print("No preferred input found; using default input device.")
+
+        return device_index
 
     def close(self):
         """cleanly back out and release sound card."""
-        self.p.close(self.inStream)
+        self.pa.close(self.stream)
 
     def get_audio(self):
         """get a single buffer size worth of audio."""
-        audio_string = self.inStream.read(self.BUFFER_SIZE)
-        return numpy.fromstring(audio_string, dtype=numpy.int16)
+        audio_stream = self.stream.read(BUFFERSIZE)
+        return numpy.fromstring(audio_stream, dtype=numpy.int16)
 
-    def record(self, forever=True):
-        """record secToRecord seconds of audio."""
-        while True:
-            if self.threadsDieNow: break
-            for i in range(self.chunksToRecord):
-                self.audio[i * self.BUFFER_SIZE:(i + 1) * self.BUFFER_SIZE] = self.get_audio()
-            self.newAudio = True
-            if not forever:
-                break
-            time.sleep(.001)
-
-    def continuous_start(self):
-        """CALL THIS to start running forever."""
-        self.t = threading.Thread(target=self.record)
-        self.t.start()
-
-    def continuous_end(self):
-        """shut down continuous recording."""
-        self.threadsDieNow = True
+    def record(self):
+        """get a single buffer size worth of audio."""
+        audio = numpy.empty((self.chunksToRecord * BUFFERSIZE), dtype=numpy.int16)
+        for i in range(self.chunksToRecord):
+            audio[i * BUFFERSIZE:(i + 1) * BUFFERSIZE] = self.get_audio()
+        return audio
 
     def fft(self, x_max, y_max):
-        data = self.audio.flatten()
-
+        data = self.record().flatten()
         left, right = numpy.split(numpy.abs(numpy.fft.fft(data)), 2)
         ys = numpy.add(left, right[::-1])
 
@@ -81,5 +81,4 @@ class AudioStream:
         ys = ys[:x_max]
         m = max(100000, numpy.average(self.maxVals))
         ys = numpy.rint(numpy.interp(ys, [0, m], [0, y_max - 1]))
-        print(ys)
         return ys
