@@ -62,7 +62,12 @@ class AudioStream:
 
     def get_audio(self):
         """get a single buffer size worth of audio."""
-        audio_stream = self.stream.read(BUFFER_SIZE)
+        try:
+            audio_stream = self.stream.read(BUFFER_SIZE)
+        except IOError:
+            print('Input overflow')
+            audio_stream = numpy.empty((self.chunksToRecord * BUFFER_SIZE), dtype=numpy.int16)
+
         return numpy.fromstring(audio_stream, dtype=numpy.int16)
 
     def record(self, forever=True):
@@ -72,7 +77,7 @@ class AudioStream:
                 self.audio[i * BUFFER_SIZE:(i + 1) * BUFFER_SIZE] = self.get_audio()
             if not forever:
                 break
-            time.sleep(0.01)
+            time.sleep(0.1)
 
     def continuousStart(self):
         """CALL THIS to start running forever."""
