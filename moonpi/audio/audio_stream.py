@@ -34,7 +34,8 @@ class AudioStream:
                                    frames_per_buffer=BUFFER_SIZE)
 
         self.buffersToRecord = int(rate * secToRecord / BUFFER_SIZE)
-        if self.buffersToRecord == 0: self.buffersToRecord = 1
+        if self.buffersToRecord == 0:
+            self.buffersToRecord = 1
         self.samplesToRecord = int(BUFFER_SIZE * self.buffersToRecord)
         self.chunksToRecord = int(self.samplesToRecord / BUFFER_SIZE)
         self.secPerPoint = 1.0 / rate
@@ -80,7 +81,6 @@ class AudioStream:
                 self.audio[i * BUFFER_SIZE:(i + 1) * BUFFER_SIZE] = self.get_audio()
             if not forever:
                 break
-            time.sleep(0.01)
 
     def continuousStart(self):
         """CALL THIS to start running forever."""
@@ -88,6 +88,7 @@ class AudioStream:
         self.t.start()
 
     def fft(self, x_max, y_max):
+        self.record(forever=False)
         data = self.audio.flatten()
         left, right = numpy.split(numpy.abs(numpy.fft.fft(data)), 2)
         ys = numpy.add(left, right[::-1])

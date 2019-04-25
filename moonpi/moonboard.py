@@ -67,10 +67,10 @@ class MoonBoard:
         self.layout.set_brightness(brightness)
         self.layout.push_to_driver()
 
-    def run_animation(self, animation, **kwds):
+    def run_animation(self, animation, run_options={}, **kwds):
         self.stop_animation()
         self.animation = animation(self.layout, **kwds)
-        self.animation.run()
+        self.animation.run(run_options)
 
     def stop_animation(self):
         if self.animation is not None:

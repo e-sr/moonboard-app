@@ -22,7 +22,8 @@ from moonpi.utils.SequenceTest import SequenceTest
 from .assets import bundles
 from moonpi.problems.draw_problem import draw_Problem, background_image_path
 from .moonboard import MoonBoard
-from moonpi.problems.moonboard_problems import HOLDS_CONF, _new_site_problems_ids_and_author, load_problems, get_setups, problems_data
+from moonpi.problems.moonboard_problems import HOLDS_CONF, _new_site_problems_ids_and_author, load_problems, get_setups, \
+    problems_data
 
 eventlet.monkey_patch()
 
@@ -335,5 +336,5 @@ def _set_led_brightness():
 
 @app.route('/_start_audio_visualization', methods=['POST'])
 def _start_audio_visualization():
-    MOONBOARD.run_animation(AudioVisualization)
+    MOONBOARD.run_animation(AudioVisualization, run_options={'fps': 40})
     return "OK"
