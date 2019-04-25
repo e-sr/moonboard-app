@@ -91,7 +91,7 @@ class AudioStream:
     def piff(self, val):
         return int(2 * BUFFER_SIZE * val / self.rate)
 
-    def fft(self):
+    def fft(self, max_y):
         data = self.get_audio().flatten()
         # Apply FFT - real data
         fourier = numpy.fft.rfft(data)
@@ -100,8 +100,8 @@ class AudioStream:
 
         # Find average 'amplitude' for specific frequency ranges in Hz
         power = numpy.abs(fourier)
-        matrix = [0, 0, 0, 0, 0, 0, 0, 0]
-        weighting = [2, 8, 8, 16, 16, 32, 32, 64]
+        matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        weighting = [2, 8, 8, 8, 16, 16, 16, 32, 32, 32, 64]
 
         matrix[0] = int(numpy.mean(power[self.piff(0):self.piff(156):1]))
         matrix[1] = int(numpy.mean(power[self.piff(156):self.piff(313):1]))
@@ -109,11 +109,14 @@ class AudioStream:
         matrix[3] = int(numpy.mean(power[self.piff(625):self.piff(1250):1]))
         matrix[4] = int(numpy.mean(power[self.piff(1250):self.piff(2500):1]))
         matrix[5] = int(numpy.mean(power[self.piff(2500):self.piff(5000):1]))
-        matrix[6] = int(numpy.mean(power[self.piff(5000):self.piff(10000):1]))
-        matrix[7] = int(numpy.mean(power[self.piff(10000):self.piff(20000):1]))
+        matrix[6] = int(numpy.mean(power[self.piff(5000):self.piff(7500):1]))
+        matrix[7] = int(numpy.mean(power[self.piff(7500):self.piff(10000):1]))
+        matrix[8] = int(numpy.mean(power[self.piff(10000):self.piff(12500):1]))
+        matrix[9] = int(numpy.mean(power[self.piff(12500):self.piff(15000):1]))
+        matrix[10] = int(numpy.mean(power[self.piff(15000):self.piff(20000):1]))
 
         # Tidy up column values for the LED matrix
         matrix = numpy.divide(numpy.multiply(matrix, weighting), 1000000)
         # Set floor at 0 and ceiling at 8 for LED matrix
-        matrix = numpy.interp(matrix, (0, matrix.max()), (0, 17)).astype(int)
+        matrix = numpy.interp(matrix, (0, matrix.max()), (0, max_y)).astype(int)
         return matrix

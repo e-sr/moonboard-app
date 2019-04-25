@@ -13,9 +13,9 @@ class AudioVisualization(BaseMatrixAnim):
 
     def step(self, amt=1):
         self.layout.all_off()
-        eq_data = self.stream.fft()
+        eq_data = self.stream.fft(self.layout.height)
         print(eq_data)
-        for x in range(8):
+        for x in range(self.layout.width):
             for y in range(eq_data[x]):
                 self.layout.set(x, self.layout.height - y, self.colors[y])
 
