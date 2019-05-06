@@ -52,7 +52,7 @@ class MoonBoard:
                              width=11,
                              height=18,
                              brightness=BRIGHTNESS,
-                             coordMap=self.COORDS
+                             coord_map=self.COORDS
                              )
         self.animation = None
 
