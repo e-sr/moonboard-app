@@ -24,3 +24,4 @@ scandir==1.5
 six==1.10.0
 webassets==0.12.1
 future==0.17.1
+pyaudio==0.2.11

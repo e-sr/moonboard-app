@@ -73,13 +73,12 @@ def load_problems(problems_dir_path, site=False):
     else:
         file_list = [f for f in problems_dir_path.iterdir() if f.match("*.json")]
     problems = {}
-    setups = set()
     for file in file_list:
         try:
             print("Read problems from {}.".format(str(file)))
             file_content = json.load(open(str(file), 'r+'))
             problems_list = file_content['problems']
-        except  KeyError:
+        except KeyError:
             print("File not valid")
         else:
             for p in problems_list:

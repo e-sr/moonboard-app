@@ -17,11 +17,12 @@ from flask import Flask, request, redirect, render_template, url_for
 from flask_assets import Environment
 from flask_socketio import SocketIO
 
-from moonBoardApp.utils.SequenceTest import SequenceTest
+from moonpi.utils.SequenceTest import SequenceTest
 from .assets import bundles
-from .draw_problem import draw_Problem, background_image_path
+from moonpi.problems.draw_problem import draw_Problem, background_image_path
 from .moonboard import MoonBoard
-from .moonboard_problems import HOLDS_CONF, _new_site_problems_ids_and_author, load_problems, get_setups, problems_data
+from moonpi.problems.moonboard_problems import HOLDS_CONF, _new_site_problems_ids_and_author, load_problems, get_setups, \
+    problems_data
 
 eventlet.monkey_patch()
 
@@ -35,9 +36,9 @@ from pathlib import Path
 APP_ROOT = Path(__file__).parent.relative_to(Path().absolute())
 STATIC_FILE_PATH = APP_ROOT.joinpath('static')
 IMAGE_FOLDER_PATH = STATIC_FILE_PATH.joinpath("img")
-PROBLEMS_DIR_PATH = APP_ROOT.joinpath('problems')
+PROBLEMS_DIR_PATH = APP_ROOT.joinpath('problems/data')
 PROBLEM_IMAGE_PATH = IMAGE_FOLDER_PATH.joinpath('current_problem.png')
-FAVORITES_PATH = APP_ROOT.joinpath('favorites').joinpath('contest.json')
+FAVORITES_PATH = APP_ROOT.joinpath('favourites').joinpath('favourites.json')
 
 # problems
 LED_BRIGHTNESS_LEVELS = {"Low": 80, "Medium": 100, "High": 255}
@@ -49,7 +50,7 @@ HOLD_COLORS = {
     'FH': COLORS.Red
 }
 
-CURRENT_HOLD_SETUP_KEY = 1  # A+B+OS 2016
+CURRENT_HOLD_SETUP_KEY = 6  # Original School Holds 2016
 
 PROBLEMS = load_problems(PROBLEMS_DIR_PATH)
 PROBLEMS_DATA, PROBLEMS_DATA_BY_HOLDS = problems_data(CURRENT_HOLD_SETUP_KEY, PROBLEMS)
@@ -302,7 +303,6 @@ def search_by_holds():
 
 @app.route('/settings')
 def settings():
-    MOONBOARD.clear()
     setup = {k: {'name': ", ".join(list(v)), 'selected': k == CURRENT_HOLD_SETUP_KEY} \
              for k, v in list(HOLDS_CONF["setup"].items())}
     return render_template("settings.html", holds_setup=setup, brightness_levels=LED_BRIGHTNESS_LEVELS,
@@ -322,5 +322,6 @@ def _set_hold_combination():
 def _set_led_brightness():
     global LED_BRIGHTNESS
     LED_BRIGHTNESS = request.form.get('brightness')
+    MOONBOARD.layout.set_brightness(LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
     print(LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
     return "OK"

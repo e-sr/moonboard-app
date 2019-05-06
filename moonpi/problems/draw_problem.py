@@ -5,7 +5,7 @@ from builtins import range
 from past.utils import old_div
 from PIL import Image, ImageDraw
 from PIL.ImageColor import colormap
-from .moonboard_problems import HOLDS_CONF
+from moonpi.problems.moonboard_problems import HOLDS_CONF
 
 # Coordinates: x:horizontal,y vertical. (x,y)=(0,0) upper -left
 # coordinate of the first and last(A,K) hold column (in pixels )

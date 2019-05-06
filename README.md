@@ -1,4 +1,4 @@
-Moonboard LED DIY
+Moon Pi
 ========
 
 This project is heavily baseon https://github.com/e-sr/moonboard-app. The drivers have been updated to use WS2811 LEDs which are the original ones used by Moon. The software has been migrated to Python3 and the latest bibliopixel library.
