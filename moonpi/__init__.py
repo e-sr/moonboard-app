@@ -310,7 +310,6 @@ def search_by_holds():
 
 @app.route('/settings')
 def settings():
-    MOONBOARD.clear()
     setup = {k: {'name': ", ".join(list(v)), 'selected': k == CURRENT_HOLD_SETUP_KEY} \
              for k, v in list(HOLDS_CONF["setup"].items())}
     return render_template("settings.html", holds_setup=setup, brightness_levels=LED_BRIGHTNESS_LEVELS,
