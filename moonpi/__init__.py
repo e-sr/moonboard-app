@@ -330,6 +330,7 @@ def _set_hold_combination():
 def _set_led_brightness():
     global LED_BRIGHTNESS
     LED_BRIGHTNESS = request.form.get('brightness')
+    MOONBOARD.layout.set_brightness(LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
     print(LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
     return "OK"
 
