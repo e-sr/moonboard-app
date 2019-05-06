@@ -30,13 +30,6 @@
         {% assets "home_css" %}
             <link rel="stylesheet" href="{{ ASSET_URL }}"/>
         {% endassets %}
-    {% elif request.path == '/audio_visualization' %}
-        {% assets "audio_visualization_js" %}
-            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-        {% endassets %}
-        {% assets "home_css" %}
-            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
-        {% endassets %}
     {% elif request.path == '/custom_problem' %}
         {% assets "custom_js" %}
             <script type="text/javascript" src="{{ ASSET_URL }}"></script>
@@ -66,8 +59,6 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('utils') }}">Utils</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{ url_for('audio_visualization') }}">Audio</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ url_for('settings') }}">Settings</a></li>
                         <li role="separator" class="divider"></li>

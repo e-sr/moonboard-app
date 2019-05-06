@@ -32,13 +32,6 @@ bundles = {
         "frontend/bootstrap-select/dist/js/bootstrap-select.js",
         "frontend/myjs/utils.js",
         output="js-generated/utils.js"),
-    "audio_visualization_js": Bundle(
-        "frontend/jquery-3.2.1.min.js",
-        "frontend/socket.io-client-master/dist/socket.io.min.js",
-        "frontend/bootstrap-3.3.7/js/bootstrap.js",
-        "frontend/bootstrap-select/dist/js/bootstrap-select.js",
-        "frontend/myjs/audio_visualization.js",
-        output="js-generated/audio_visualization.js"),
     "custom_js": Bundle(
         "frontend/jquery-3.2.1.min.js",
         "frontend/socket.io-client-master/dist/socket.io.min.js",

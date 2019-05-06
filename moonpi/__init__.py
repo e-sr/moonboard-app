@@ -17,7 +17,6 @@ from flask import Flask, request, redirect, render_template, url_for
 from flask_assets import Environment
 from flask_socketio import SocketIO
 
-from moonpi.audio.audio_visualization import AudioVisualization
 from moonpi.utils.SequenceTest import SequenceTest
 from .assets import bundles
 from moonpi.problems.draw_problem import draw_Problem, background_image_path
@@ -221,12 +220,6 @@ def utils():
     return render_template('utils.html')
 
 
-@app.route('/audio_visualization')
-def audio_visualization():
-    init_problems_var()
-    return render_template('audio_visualization.html')
-
-
 @app.route('/custom_problem')
 def custom_problem():
     init_problems_var()
@@ -331,10 +324,4 @@ def _set_led_brightness():
     LED_BRIGHTNESS = request.form.get('brightness')
     MOONBOARD.layout.set_brightness(LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
     print(LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
-    return "OK"
-
-
-@app.route('/_start_audio_visualization', methods=['POST'])
-def _start_audio_visualization():
-    MOONBOARD.run_animation(AudioVisualization, run_options={'fps': 40})
     return "OK"
