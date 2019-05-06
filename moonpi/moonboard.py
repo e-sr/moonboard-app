@@ -8,10 +8,8 @@ from bibliopixel import Matrix, Rotation
 from bibliopixel.drivers.PiWS281X import PiWS281X
 from bibliopixel.drivers.dummy_driver import DriverDummy
 
+from moonpi import LED_BRIGHTNESS
 from moonpi.problems.moonboard_problems import HOLDS_CONF
-
-BRIGHTNESS = 100
-
 
 class MoonBoard:
     DEFAULT_COLOR = COLORS.Green
@@ -51,7 +49,7 @@ class MoonBoard:
         self.layout = Matrix(driver,
                              width=11,
                              height=18,
-                             brightness=BRIGHTNESS,
+                             brightness=LED_BRIGHTNESS,
                              coord_map=self.COORDS
                              )
         self.animation = None
@@ -72,7 +70,7 @@ class MoonBoard:
         self.set_hold(hold, color)
         self.layout.push_to_driver()
 
-    def show_problem(self, holds, hold_colors={}, brightness=BRIGHTNESS):
+    def show_problem(self, holds, hold_colors={}, brightness=LED_BRIGHTNESS):
         print(holds)
         self.clear()
         color = {k: hold_colors.get(k, self.DEFAULT_COLOR) for k in ['SH', 'IH', 'FH']}
