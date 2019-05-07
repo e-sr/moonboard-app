@@ -299,7 +299,7 @@ def _mario():
 
 @app.route('/_twinkle', methods=['POST'])
 def _twinkle():
-    MOONBOARD.run_animation(Twinkle, colors=[COLORS.White])
+    MOONBOARD.run_animation(Twinkle, density=25, colors=[COLORS.White, COLORS.Blue, COLORS.Cyan])
     return 'OK'
 
 
