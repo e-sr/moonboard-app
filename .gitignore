@@ -1,9 +1,9 @@
 ##specific
 .idea/
 others/
-moonBoardApp/static/.webassets-cache
-moonBoardApp/static/img/current_problem.png
-moonBoardApp/static/*-generated
+moonpi/static/.webassets-cache
+moonpi/static/img/current_problem.png
+moonpi/static/*-generated
 
 ##Python
 # Byte-compiled / optimized / DLL files

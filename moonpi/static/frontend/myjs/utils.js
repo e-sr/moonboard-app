@@ -26,4 +26,11 @@ $(document).ready(function () {
     $("#clear-btn").on('click', function (event) {
         $.post("/_clear_wall");
     });
+    $('#scroll-text').keyboard();
+    $('#scroll-text-btn').on('click', function (event) {
+        $.post('/_scroll_text', {
+            text: $('#scroll-text').val(),
+
+        });
+    });
 });
