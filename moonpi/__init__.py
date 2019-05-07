@@ -7,7 +7,6 @@ from __future__ import print_function
 from builtins import str
 
 import eventlet
-from BiblioPixelAnimations.matrix.Text import ScrollText
 from BiblioPixelAnimations.matrix.Twinkle import Twinkle
 from BiblioPixelAnimations.matrix.ImageAnim import ImageAnim
 from BiblioPixelAnimations.matrix.MatrixRain import MatrixRain, MatrixRainBow
@@ -19,6 +18,7 @@ from flask import Flask, request, redirect, render_template, url_for
 from flask_assets import Environment
 from flask_socketio import SocketIO
 
+from moonpi.utils.ScrollTextDecorator import ScrollTextDecorator
 from moonpi.utils.SequenceTest import SequenceTest
 from .assets import bundles
 from moonpi.problems.draw_problem import draw_Problem, background_image_path
@@ -246,8 +246,8 @@ def _set_custom_problem():
 
 @app.route('/_scroll_text', methods=['POST'])
 def _scroll_text():
-    text = request.form.get('text') or 'Ferals'
-    MOONBOARD.run_animation(ScrollText, text=text)
+    text = request.form.get('text') or 'FERALS'
+    MOONBOARD.run_animation(ScrollTextDecorator, text=text, font_scale=2)
     return 'OK'
 
 
