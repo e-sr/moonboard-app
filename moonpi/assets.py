@@ -30,6 +30,7 @@ bundles = {
         "frontend/socket.io-client-master/dist/socket.io.min.js",
         "frontend/bootstrap-3.3.7/js/bootstrap.js",
         "frontend/bootstrap-select/dist/js/bootstrap-select.js",
+        "frontend/jqbtk-0.2/jqbtk.min.js",
         "frontend/myjs/utils.js",
         output="js-generated/utils.js"),
     "custom_js": Bundle(

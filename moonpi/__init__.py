@@ -7,6 +7,7 @@ from __future__ import print_function
 from builtins import str
 
 import eventlet
+from BiblioPixelAnimations.matrix.Text import ScrollText
 from BiblioPixelAnimations.matrix.Twinkle import Twinkle
 from BiblioPixelAnimations.matrix.ImageAnim import ImageAnim
 from BiblioPixelAnimations.matrix.MatrixRain import MatrixRain, MatrixRainBow
@@ -159,7 +160,7 @@ def select_problem():
                      background_image_path(IMAGE_FOLDER_PATH, CURRENT_HOLD_SETUP_KEY),
                      PROBLEM_IMAGE_PATH,
                      HOLD_COLORS)
-        MOONBOARD.show_problem(holds, HOLD_COLORS, brightness=LED_BRIGHTNESS_LEVELS[LED_BRIGHTNESS])
+        MOONBOARD.show_problem(holds, HOLD_COLORS)
     return "OK"
 
 
@@ -241,6 +242,13 @@ def _set_custom_problem():
             'FH': COLORS.Red
         })
     return "OK"
+
+
+@app.route('/_scroll_text', methods=['POST'])
+def _scroll_text():
+    text = request.form.get('text') or 'Ferals'
+    MOONBOARD.run_animation(ScrollText, text=text)
+    return 'OK'
 
 
 def hold_list(holds):
