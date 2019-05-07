@@ -17,7 +17,10 @@ $(document).ready(function () {
     $("#mario-btn").on('click', function (event) {
         $.post("/_mario");
     });
-     $("#pinwheel-btn").on('click', function (event) {
+    $("#twinkle-btn").on('click', function (event) {
+        $.post("/_twinkle");
+    });
+    $("#pinwheel-btn").on('click', function (event) {
         $.post("/_pinwheel");
     });
     $("#clear-btn").on('click', function (event) {

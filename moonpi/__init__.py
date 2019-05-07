@@ -7,6 +7,7 @@ from __future__ import print_function
 from builtins import str
 
 import eventlet
+from BiblioPixelAnimations.matrix.Twinkle import Twinkle
 from BiblioPixelAnimations.matrix.ImageAnim import ImageAnim
 from BiblioPixelAnimations.matrix.MatrixRain import MatrixRain, MatrixRainBow
 from BiblioPixelAnimations.matrix.bloom import Bloom
@@ -285,6 +286,12 @@ def _matrix_rainbow():
 @app.route('/_mario', methods=['POST'])
 def _mario():
     MOONBOARD.run_animation(ImageAnim, scale_to='fit')
+    return 'OK'
+
+
+@app.route('/_twinkle', methods=['POST'])
+def _twinkle():
+    MOONBOARD.run_animation(Twinkle)
     return 'OK'
 
 
