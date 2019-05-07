@@ -297,7 +297,7 @@ def _twinkle():
 
 @app.route('/_pinwheel', methods=['POST'])
 def _pinwheel():
-    MOONBOARD.run_animation(Pinwheel)
+    MOONBOARD.run_animation(Pinwheel, colors=[COLORS.White])
     return 'OK'
 
 
