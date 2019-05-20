@@ -247,7 +247,8 @@ def _set_custom_problem():
 @app.route('/_scroll_text', methods=['POST'])
 def _scroll_text():
     text = request.form.get('text') or 'FERALS'
-    MOONBOARD.run_animation(ScrollTextDecorator, text=text, font_scale=2)
+    fps = int(request.form.get('fps') or '20')
+    MOONBOARD.run_animation(ScrollTextDecorator, run_options = {'fps': fps}, text=text, font_scale=2)
     return 'OK'
 
 

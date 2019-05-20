@@ -27,10 +27,12 @@ $(document).ready(function () {
         $.post("/_clear_wall");
     });
     $('#scroll-text').keyboard();
+    $('#scroll-fps').keyboard({type: 'tel'});
     $('#scroll-text-btn').on('click', function (event) {
         $.post('/_scroll_text', {
             text: $('#scroll-text').val(),
-
+            fps: $('#scroll-fps').val(),
         });
     });
+
 });
