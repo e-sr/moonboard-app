@@ -11,7 +11,7 @@ Flask-Assets==0.12
 Flask-SocketIO==2.8.5
 greenlet==0.4.12
 itsdangerous==0.24
-Jinja2==2.9.5
+Jinja2==2.11.3
 MarkupSafe==1.0
 olefile==0.44
 packaging==16.8
